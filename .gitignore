@@ -1,0 +1,12 @@
+*.exp
+*.ilk
+*.lib
+*.pdb
+*.exe
+*.sdf
+*.suo
+*.opensdf
+/PGG Assignment 2/Debug
+/PGG Assignment 2/Release
+*.user
+*.db
