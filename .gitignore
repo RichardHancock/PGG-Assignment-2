@@ -10,3 +10,5 @@
 /PGG Assignment 2/Release
 *.user
 *.db
+/DoxgenLog.txt
+/Docs
