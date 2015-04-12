@@ -252,14 +252,16 @@ int main(int argc, char *argv[])
 		// Don't forget, this is the opposite of where the camera actually is
 		// You can think of this as moving the world away from the camera
 		glm::mat4 View = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, -2.5f));
-
+		
 		// Draw the object using the given view (which contains the camera orientation) and projection (which contains information about the camera 'lense')
 		myObject->Draw(View, Projection);
-
+		
+		glm::mat4 Projection2D = glm::ortho(0, winWidth, winHeight, 0);
 
 		// This tells the renderer to actually show its contents to the screen
 		// We'll get into this sort of thing at a later date - or just look up 'double buffering' if you're impatient :P
 		SDL_GL_SwapWindow(window);
+		
 
 		// Limiter in case we're running really quick
 		if (deltaTs < (1.0f / 50.0f))	// not sure how accurate the SDL_Delay function is..
