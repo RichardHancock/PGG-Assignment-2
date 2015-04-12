@@ -1,26 +1,22 @@
-
-#ifndef __GAME_OBJECT__
-#define __GAME_OBJECT__
+#pragma once
 
 #include <glm.hpp>
 #include <SDL.h>
 #include "glew.h"
 #include <string>
+#include "Shader.h"
 
 /// Class to store and display a model
 class GameModel
 {
 public:
 
-	/// Constructor calls InitialiseVAO and InitialiseShaders
-	GameModel();
+	/// Constructor calls InitialiseVAO
+	GameModel(Shader* shader);
 	~GameModel();
 
 	/// Loads object model into OpenGL
 	void InitialiseVAO();
-
-	/// Loads shaders for the object into OpenGL
-	void InitialiseShaders();
 
 	/// Currently just updates rotation to make the model rotate
 	void Update( float deltaTs );
@@ -42,11 +38,8 @@ protected:
 	/// Vertex Array Object for model in OpenGL
 	GLuint _VAO;
 
-	/// Shader program
-	GLuint _program;
-
-	/// Uniform locations
-	GLint _shaderModelMatLocation, _shaderViewMatLocation, _shaderProjMatLocation;
+	///Shader used for rendering this model
+	Shader* shader;
 
 	/// Object's model matrix
 	/// This is rebuilt in the update function
@@ -55,9 +48,4 @@ protected:
 	/// Number of vertices in the model
 	unsigned int _numVertices;
 
-	///loads a shader from a file
-	std::string loadShaderFromFile(char* path);
 };
-
-
-#endif

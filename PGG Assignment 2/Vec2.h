@@ -1,6 +1,7 @@
+#pragma once
+
 #include <iostream>
 
-#pragma once
 
 /**
 @brief Stores a 2D Vector or Position, as floats
@@ -33,6 +34,16 @@ public:
 	{
 		x = initX;
 		y = initY;
+	}
+
+	/**
+	@brief Create a Vec2
+	@param float - X and Y value
+	*/
+	Vec2(float XY)
+	{
+		x = XY;
+		y = XY;
 	}
 
 	/**
@@ -85,6 +96,12 @@ public:
 		y /= b.y;
 		return this;
 	}
+	Vec2* operator = (int b)
+	{
+		x = (float)b;
+		y = (float)b;
+		return this;
+	}
 
 	inline Vec2 operator + (Vec2 b)
 	{
@@ -128,6 +145,8 @@ public:
 		result.y = y * b;
 		return result;
 	}
+
+	
 
 };
 

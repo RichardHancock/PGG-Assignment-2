@@ -137,12 +137,13 @@ int main(int argc, char *argv[])
 	// This function returns the number of milliseconds since SDL was initialised
 	unsigned int lastTime = SDL_GetTicks();
 
-
 	// Enable the depth test to make sure triangles in front are always in front no matter the order they are drawn
 	glEnable(GL_DEPTH_TEST);
 
+	Shader* standardShader = new Shader("shaders/vertex.shader", "shaders/fragment.shader");
+
 	// Create a model
-	GameModel *myObject = new GameModel();
+	GameModel *myObject = new GameModel(standardShader);
 	// Set object's position like this:
 	myObject->SetPosition(0, 0, 0);
 
