@@ -12,6 +12,7 @@
 
 #include "GameModel.h"
 #include "OBJLoader.h"
+#include "Utility.h"
 
 
 //This forces NVIDIA hybrid GPU's (Intel and Nvidia integrated) to use the high performance NVidia chip rather than the Intel.
@@ -51,18 +52,10 @@ bool InitGL()
 
 int main(int argc, char *argv[])
 {
-	// This is our initialisation phase
-
-	// SDL_Init is the main initialisation function for SDL
-	// It takes a 'flag' parameter which we use to tell SDL what systems we're going to use
-	// Here, we want to use SDL's video system, so we give it the flag for this
-	// Incidentally, this also initialises the input event system
-	// This function also returns an error value if something goes wrong
-	// So we can put this straight in an 'if' statement to check and exit if need be
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
 		// Something went very wrong in initialisation, all we can do is exit
-		std::cout << "Whoops! Something went very wrong, cannot initialise SDL :(" << std::endl;
+		Utility::log(Utility::E,"Whoops! Something went very wrong, cannot initialise SDL");
 		return -1;
 	}
 

@@ -4,9 +4,21 @@
 #include "glew.h"
 #include <string>
 
+/** 
+@brief A GLSL shader program. 
+
+Contains a compiled shader program and any uniform locations
+*/
 class Shader 
 {
 public:
+
+	/**
+	 @brief Constructor.
+	
+	 @param vShaderFilename Filename of the vertex shader.
+	 @param fShaderFilename Filename of the fragment shader.
+	 */
 	Shader(std::string vShaderFilename, std::string fShaderFilename);
 	
 	/**
@@ -54,5 +66,11 @@ private:
 	*/
 	bool checkShaderCompiled(GLint shader);
 
+	/**
+	 @brief Initialises the shaders.
+	Calls the load function to load the shaders and compile them into a program.
+	 @param vShaderFilename Filename of the shader file.
+	 @param fShaderFilename Filename of the shader file.
+	 */
 	void initialiseShaders(std::string vShaderFilename, std::string fShaderFilename);
 };
