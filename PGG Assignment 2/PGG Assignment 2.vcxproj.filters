@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Audio">
+      <UniqueIdentifier>{b57db450-96bb-41ab-9681-9f27f9a3a648}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Audio">
+      <UniqueIdentifier>{a3c59d8a-eb0a-42b5-9aef-b5bd0059bf6e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameModel.h">
@@ -42,6 +48,21 @@
     <ClInclude Include="Utility.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="audio\Audio.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="audio\Music.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="audio\SFX.h">
+      <Filter>Header Files\Audio</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OBJLoader.cpp">
@@ -60,6 +81,21 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Utility.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="audio\Audio.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="audio\Music.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="audio\SFX.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

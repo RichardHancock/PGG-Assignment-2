@@ -10,9 +10,9 @@
 #include <glm.hpp> // This is the main GLM header
 #include <gtc/matrix_transform.hpp> // This one lets us use matrix transformations
 
-#include "GameModel.h"
-#include "OBJLoader.h"
+#include "ResourceManager.h"
 #include "Utility.h"
+#include "Entity.h"
 
 
 //This forces NVIDIA hybrid GPU's (Intel and Nvidia integrated) to use the high performance NVidia chip rather than the Intel.
@@ -133,12 +133,11 @@ int main(int argc, char *argv[])
 	// Enable the depth test to make sure triangles in front are always in front no matter the order they are drawn
 	glEnable(GL_DEPTH_TEST);
 
+	ResourceManager* resourceManager = new ResourceManager();
+
 	Shader* standardShader = new Shader("shaders/vertex.shader", "shaders/fragment.shader");
 
-	// Create a model
-	GameModel *myObject = new GameModel(standardShader);
-	// Set object's position like this:
-	myObject->SetPosition(0, 0, 0);
+	Entity* test = new Entity(glm::vec3(0), "models/testTri.obj", resourceManager);
 
 
 	// We are now preparing for our main loop (also known as the 'game loop')
@@ -225,7 +224,7 @@ int main(int argc, char *argv[])
 		lastTime = current;
 
 		// Update the model, to make it rotate
-		myObject->Update(deltaTs);
+		test->update(deltaTs);
 
 
 
@@ -247,7 +246,7 @@ int main(int argc, char *argv[])
 		glm::mat4 View = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, -2.5f));
 		
 		// Draw the object using the given view (which contains the camera orientation) and projection (which contains information about the camera 'lense')
-		myObject->Draw(View, Projection);
+		test->draw(View, Projection, standardShader);
 		
 		glm::mat4 Projection2D = glm::ortho(0, winWidth, winHeight, 0);
 

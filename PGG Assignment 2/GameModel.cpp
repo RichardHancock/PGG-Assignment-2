@@ -8,16 +8,18 @@
 
 #include "OBJLoader.h"
 #include "Vertex.h"
+#include "Utility.h"
 
-GameModel::GameModel(Shader* shader) 
-	: shader(shader)
+GameModel::GameModel(std::string modelFilename)
 {
 	// Initialise variables
-	_VAO = 0;
-	_numVertices = 0;
+	VAO = 0;
+	numVertices = 0;
+
+	Utility::log(Utility::I, "Loading model: " + modelFilename);
 
 	// Create the model
-	InitialiseVAO();
+	initialiseVAO(modelFilename);
 }
 
 GameModel::~GameModel()
@@ -25,20 +27,20 @@ GameModel::~GameModel()
 	// TODO: destroy VAO, shaders etc
 }
 
-void GameModel::InitialiseVAO()
+void GameModel::initialiseVAO(std::string modelFilename)
 {
 		// Creates one VAO
-	glGenVertexArrays( 1, &_VAO );
+	glGenVertexArrays( 1, &VAO );
 	// 'Binding' something makes it the current one we are using
 	// This is like activating it, so that subsequent function calls will work on this item
-	glBindVertexArray( _VAO );
+	glBindVertexArray( VAO );
 
 	std::vector<Vertex> tempVertexData;
 
-	OBJLoader::load(tempVertexData,"models/testTri.obj");
+	OBJLoader::load(tempVertexData, modelFilename);
 
 	const int vertexCount = tempVertexData.size() * 8;
-	_numVertices = vertexCount / 8;
+	numVertices = vertexCount / 8;
 	GLfloat* vertexData = new GLfloat[vertexCount];
 
 	for (unsigned int i = 0; i < tempVertexData.size(); i++)
@@ -95,28 +97,7 @@ void GameModel::InitialiseVAO()
 
 }
 
-void GameModel::Update( float deltaTs )
-{
-	// update the rotation angle of our cube
-	_rotation.y += deltaTs * 0.5f;
-	while( _rotation.y > (3.14159265358979323846 * 2.0) )
-	{
-		_rotation.y -= (float)(3.14159265358979323846 * 2.0);
-	}
-
-	// Build the model matrix!
-	// First we start with an identity matrix
-	// This is created with the command: glm::mat4(1.0f)
-	// Next, we translate this matrix according to the object's _position vector:
-	_modelMatrix = glm::translate(glm::mat4(1.0f), _position );
-	_modelMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(0.2, 0.2, 0.2));
-	// Next, we rotate this matrix in the y-axis by the object's y-rotation:
-	_modelMatrix = glm::rotate(_modelMatrix, _rotation.y, glm::vec3(0,1,0) );
-	// And there we go, model matrix is ready!
-
-}
-
-void GameModel::Draw(glm::mat4& viewMatrix, glm::mat4& projMatrix)
+void GameModel::draw(glm::mat4& modelMatrix, glm::mat4& viewMatrix, glm::mat4& projMatrix, Shader* shader)
 {
 	// Ok, here I like to indent drawing calls - it's just a personal style, you may not like it and that's fine ;)
 	// Generally you will need to be activating and deactivating OpenGL states
@@ -127,17 +108,17 @@ void GameModel::Draw(glm::mat4& viewMatrix, glm::mat4& projMatrix)
 	glUseProgram(shader->getProgram());
 
 		// Activate the VAO
-		glBindVertexArray( _VAO );
+		glBindVertexArray( VAO );
 
 			// Send matrices to the shader as uniforms like this:
-			glUniformMatrix4fv(shader->getModelMatLoc(), 1, GL_FALSE, glm::value_ptr(_modelMatrix) );
+			glUniformMatrix4fv(shader->getModelMatLoc(), 1, GL_FALSE, glm::value_ptr(modelMatrix) );
 			glUniformMatrix4fv(shader->getViewMatLoc(), 1, GL_FALSE, glm::value_ptr(viewMatrix) );
 			glUniformMatrix4fv(shader->getProjMatLoc(), 1, GL_FALSE, glm::value_ptr(projMatrix) );
 
 
 			// Tell OpenGL to draw it
 			// Must specify the type of geometry to draw and the number of vertices
-			glDrawArrays(GL_TRIANGLES, 0, _numVertices);
+			glDrawArrays(GL_TRIANGLES, 0, numVertices);
 			
 		// Unbind VAO
 		glBindVertexArray( 0 );

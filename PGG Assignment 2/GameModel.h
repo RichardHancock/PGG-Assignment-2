@@ -12,40 +12,27 @@ class GameModel
 public:
 
 	/// Constructor calls InitialiseVAO
-	GameModel(Shader* shader);
+	GameModel(std::string modelFilename);
 	~GameModel();
 
-	/// Loads object model into OpenGL
-	void InitialiseVAO();
+	/**
+	 @brief Draws object using the given camera view and projection matrices.
+	
+	 @param [in,out] modelMatrix The model matrix.
+	 @param [in,out] viewMatrix  The view matrix.
+	 @param [in,out] projMatrix  The projection matrix.
+	 @param [in,out] shader		 Shader used for rendering this model.
+	 */
+	void draw(glm::mat4& modelMatrix, glm::mat4& viewMatrix, glm::mat4& projMatrix, Shader* shader);
 
-	/// Currently just updates rotation to make the model rotate
-	void Update( float deltaTs );
-
-	/// Draws object using the given camera view and projection matrices
-	void Draw(glm::mat4& viewMatrix, glm::mat4& projMatrix);
-
-	/// For setting the position of the model
-	void SetPosition( float posX, float posY, float posZ ) {_position.x = posX; _position.y = posY; _position.z = posZ;}
-
-protected:
-
-	/// Object position vector
-	glm::vec3 _position;
-
-	/// Euler angles for rotation
-	glm::vec3 _rotation;
-
+private:
 	/// Vertex Array Object for model in OpenGL
-	GLuint _VAO;
+	GLuint VAO;
 
-	///Shader used for rendering this model
-	Shader* shader;
-
-	/// Object's model matrix
-	/// This is rebuilt in the update function
-	glm::mat4 _modelMatrix;
+	/// Loads object model into OpenGL
+	void initialiseVAO(std::string modelFilename);
 
 	/// Number of vertices in the model
-	unsigned int _numVertices;
+	unsigned int numVertices;
 
 };
