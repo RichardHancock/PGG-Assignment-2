@@ -45,12 +45,18 @@ public:
 	*/
 	GLint getProjMatLoc() { return projMatLocation; }
 
+	/**
+	 @brief Gets sampler location.
+	 @return The sampler location.
+	 */
+	GLint getSamplerLoc() { return samplerLocation; }
+
 private:
 	///Shader Program
 	GLuint program;
 
 	/// Uniform locations
-	GLint modelMatLocation, viewMatLocation, projMatLocation;
+	GLint modelMatLocation, viewMatLocation, projMatLocation, samplerLocation;
 
 	/**
 	@brief Loads a shader from a file and returns its contents

@@ -6,6 +6,9 @@
 
 #include "GameModel.h"
 #include "audio/Audio.h"
+#include "Texture.h"
+
+class GameModel;
 
 class ResourceManager
 {
@@ -18,9 +21,13 @@ private:
 
 public:
 
+	ResourceManager(SDL_Renderer* renderer);
+
 	Audio* getAudio(std::string audioFilename, bool isMusic);
 
 	GameModel* getModel(std::string modelFilename);
+
+	Texture* getTexture(std::string textureFilename);
 
 	enum ResourceTypes
 	{
@@ -33,7 +40,7 @@ public:
 
 	void keepResourceLoaded(std::string filename, ResourceTypes resourceType);
 
-
+	SDL_Renderer* getRenderer() { return renderer; }
 
 private:
 
@@ -41,5 +48,7 @@ private:
 
 	std::unordered_map<std::string, std::pair<Audio*, Resource>> audio;
 
-	//std::unordered_map<std::string, std::pair<Texture, Resource>> textures;
+	std::unordered_map<std::string, std::pair<Texture*, Resource>> textures;
+	
+	SDL_Renderer* renderer;
 };

@@ -133,11 +133,12 @@ int main(int argc, char *argv[])
 	// Enable the depth test to make sure triangles in front are always in front no matter the order they are drawn
 	glEnable(GL_DEPTH_TEST);
 
-	ResourceManager* resourceManager = new ResourceManager();
+	ResourceManager* resourceManager = new ResourceManager(renderer);
 
-	Shader* standardShader = new Shader("shaders/vertex.shader", "shaders/fragment.shader");
+	std::string shadPath = "resources/shaders/";
+	Shader* standardShader = new Shader(shadPath + "vertex.shader", shadPath + "fragment.shader");
 
-	Entity* test = new Entity(glm::vec3(0), "models/testTri.obj", resourceManager);
+	Entity* test = new Entity(glm::vec3(0), "resources/models/test2.obj", resourceManager);
 
 
 	// We are now preparing for our main loop (also known as the 'game loop')
@@ -231,7 +232,7 @@ int main(int argc, char *argv[])
 		// Draw our world
 
 		// Specify the colour to clear the framebuffer to
-		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+		glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 		// This writes the above colour to the colour part of the framebuffer
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 

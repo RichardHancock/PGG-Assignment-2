@@ -5,6 +5,10 @@
 #include "glew.h"
 #include <string>
 #include "Shader.h"
+#include "Texture.h"
+#include "ResourceManager.h"
+
+class ResourceManager;
 
 /// Class to store and display a model
 class GameModel
@@ -12,7 +16,7 @@ class GameModel
 public:
 
 	/// Constructor calls InitialiseVAO
-	GameModel(std::string modelFilename);
+	GameModel(std::string modelFilename, ResourceManager* manager);
 	~GameModel();
 
 	/**
@@ -28,6 +32,10 @@ public:
 private:
 	/// Vertex Array Object for model in OpenGL
 	GLuint VAO;
+
+	GLuint textureID;
+
+	Texture* texture;
 
 	/// Loads object model into OpenGL
 	void initialiseVAO(std::string modelFilename);

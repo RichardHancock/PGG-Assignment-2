@@ -10,13 +10,16 @@
 #include "Vertex.h"
 #include "Utility.h"
 
-GameModel::GameModel(std::string modelFilename)
+GameModel::GameModel(std::string modelFilename, ResourceManager* manager)
 {
 	// Initialise variables
 	VAO = 0;
+	textureID = 0;
 	numVertices = 0;
-
+	
 	Utility::log(Utility::I, "Loading model: " + modelFilename);
+
+	texture = manager->getTexture("resources/models/HULL.png");
 
 	// Create the model
 	initialiseVAO(modelFilename);
@@ -84,6 +87,52 @@ void GameModel::initialiseVAO(std::string modelFilename)
 	glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);
 
+	GLenum textureFormat;
+
+	SDL_Surface* surface = texture->getRawSurface();
+
+	switch (surface->format->BytesPerPixel) {
+	case 4:
+		if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
+			textureFormat = GL_BGRA;
+		else
+			textureFormat = GL_RGBA;
+		break;
+
+	case 3:
+		if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
+			textureFormat = GL_BGR;
+		else
+			textureFormat = GL_RGB;
+		break;
+	}
+
+	glGenTextures(1, &textureID);
+	glBindTexture(GL_TEXTURE_2D, textureID);
+
+	glTexImage2D(
+		GL_TEXTURE_2D,
+		0,
+		textureFormat,
+		texture->getRawSurface()->w,
+		texture->getRawSurface()->h,
+		0,
+		textureFormat,
+		GL_UNSIGNED_BYTE,
+		texture->getRawSurface()->pixels
+		);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glBindTexture(GL_TEXTURE_2D, 0);
+	/*
+	char* uniform_name = "textureInput";
+	GLint uniform_mytexture = glGetUniformLocation(program, uniform_name);
+	if (uniform_mytexture == -1) {
+		fprintf(stderr, "Could not bind uniform %s\n", uniform_name);
+		return 0;
+	}
+	*/
 	// Unbind for neatness, it just makes life easier
 	// As a general tip, especially as you're still learning, for each function that needs to do something specific try to return OpenGL in the state you found it in
 	// This means you will need to set the states at the beginning of your function and set them back at the end
@@ -114,8 +163,12 @@ void GameModel::draw(glm::mat4& modelMatrix, glm::mat4& viewMatrix, glm::mat4& p
 			glUniformMatrix4fv(shader->getModelMatLoc(), 1, GL_FALSE, glm::value_ptr(modelMatrix) );
 			glUniformMatrix4fv(shader->getViewMatLoc(), 1, GL_FALSE, glm::value_ptr(viewMatrix) );
 			glUniformMatrix4fv(shader->getProjMatLoc(), 1, GL_FALSE, glm::value_ptr(projMatrix) );
-
-
+			
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, textureID);
+			//GLuint uniform_texture = glGetUniformLocation(shader->getProgram(), "textureInput");
+			glUniform1i(shader->getSamplerLoc(), 0);
+			
 			// Tell OpenGL to draw it
 			// Must specify the type of geometry to draw and the number of vertices
 			glDrawArrays(GL_TRIANGLES, 0, numVertices);

@@ -66,7 +66,12 @@ void Shader::initialiseShaders(std::string vShaderFilename, std::string fShaderF
 	modelMatLocation = glGetUniformLocation(program, "modelMat");
 	viewMatLocation = glGetUniformLocation(program, "viewMat");
 	projMatLocation = glGetUniformLocation(program, "projMat");
+	samplerLocation = glGetUniformLocation(program, "gSampler");
 
+	if (samplerLocation == -1)
+	{
+		Utility::log(Utility::E, "Couldn't get sampler uniform location");
+	}
 }
 
 bool Shader::checkShaderCompiled(GLint shader)
