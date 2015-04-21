@@ -10,9 +10,9 @@
 
 #include "ResourceManager.h"
 #include "Utility.h"
-#include "Entity.h"
 #include "Camera.h"
 #include "Target.h"
+#include "Player.h"
 
 
 //This forces NVIDIA hybrid GPU's (Intel and Nvidia integrated) to use the high performance NVidia chip rather than the Intel.
@@ -140,8 +140,12 @@ int main(int argc, char *argv[])
 	std::string shadPath = "resources/shaders/";
 	Shader* standardShader = new Shader(shadPath + "vertex.shader", shadPath + "fragment.shader");
 
-	Entity* test = new Entity(glm::vec3(0), "resources/models/test2.obj", "resources/models/HULL.png", resourceManager);
-	Target* barrel = new Target(glm::vec3(3, 0, 0), "resources/models/barrel.obj", "resources/models/barrel_3_diffuse.png", resourceManager);
+	Player* playerShip = new Player(glm::vec3(0), glm::vec3(0, Utility::HALF_PI, 0), glm::vec3(0.2,0.2,0.2), 
+		"resources/models/test2.obj", "resources/models/HULL.png", resourceManager);
+	Target* barrel = new Target(glm::vec3(0, 0, -7), glm::vec3(0, 0, 0), glm::vec3(0.2, 0.2, 0.2),
+		"resources/models/barrel.obj", "resources/models/barrel_3_diffuse.png", resourceManager);
+
+	playerShip->toggleForwardMovement();
 
 	bool go = true;
 	while (go)
@@ -193,9 +197,9 @@ int main(int argc, char *argv[])
 		lastTime = current;
 
 		// Update the model, to make it rotate
-		test->update(deltaTs);
+		playerShip->update(deltaTs);
 		barrel->update(deltaTs);
-		camera->updateViewMat(test->getPos());
+		camera->updateViewMat(playerShip->getPos());
 
 		// Draw our world
 
@@ -209,8 +213,9 @@ int main(int argc, char *argv[])
 		glm::mat4 View = camera->getViewMatrix();
 		
 		// Draw the object using the given view (which contains the camera orientation) and projection (which contains information about the camera 'lense')
-		test->draw(View, Projection, standardShader);
+		playerShip->draw(View, Projection, standardShader);
 		barrel->draw(View, Projection, standardShader);
+		
 		glm::mat4 Projection2D = glm::ortho(0, winWidth, winHeight, 0);
 
 		// This tells the renderer to actually show its contents to the screen

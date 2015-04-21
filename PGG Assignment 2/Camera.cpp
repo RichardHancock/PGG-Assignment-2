@@ -23,5 +23,5 @@ void Camera::updateViewMat(glm::vec3 targetPos)
 
 	viewMatrix = glm::lookAt(cameraPos, targetPos, upDir);
 
-	viewMatrix = glm::rotate(viewMatrix, Utility::HALF_PI, glm::vec3(0, 1, 0));
+	//viewMatrix = glm::rotate(viewMatrix, Utility::HALF_PI, glm::vec3(0, 1, 0));
 }
