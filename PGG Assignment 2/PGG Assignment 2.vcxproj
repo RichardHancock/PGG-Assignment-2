@@ -78,9 +78,10 @@
     <ClInclude Include="audio\Music.h" />
     <ClInclude Include="audio\SFX.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="dependencies\glew.h" />
+    <ClInclude Include="dependencies\wglew.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="GameModel.h" />
-    <ClInclude Include="glew.h" />
     <ClInclude Include="OBJLoader.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="ResourceManager.h" />
@@ -91,16 +92,15 @@
     <ClInclude Include="Vec2.h" />
     <ClInclude Include="Vec3.h" />
     <ClInclude Include="Vertex.h" />
-    <ClInclude Include="wglew.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="audio\Audio.cpp" />
     <ClCompile Include="audio\Music.cpp" />
     <ClCompile Include="audio\SFX.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="dependencies\glew.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="GameModel.cpp" />
-    <ClCompile Include="glew.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="OBJLoader.cpp" />
     <ClCompile Include="Player.cpp" />

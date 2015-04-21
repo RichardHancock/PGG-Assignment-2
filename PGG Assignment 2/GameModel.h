@@ -2,7 +2,7 @@
 
 #include <glm.hpp>
 #include <SDL.h>
-#include "glew.h"
+#include "dependencies/glew.h"
 #include <string>
 #include "Shader.h"
 #include "Texture.h"

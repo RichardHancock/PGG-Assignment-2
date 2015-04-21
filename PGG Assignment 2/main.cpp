@@ -1,6 +1,6 @@
 #include <SDL.h>
 
-#include "glew.h"
+#include "dependencies/glew.h"
 
 #include <iostream>
 #include <windows.h>
