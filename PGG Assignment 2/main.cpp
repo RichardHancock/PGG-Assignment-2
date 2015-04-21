@@ -161,28 +161,22 @@ int main(int argc, char *argv[])
 			case SDL_QUIT:
 				go = false;
 				break;
+
 			case SDL_KEYDOWN:
-				
+			case SDL_KEYUP:
+
 				switch (incomingEvent.key.keysym.sym)
 				{
-				case SDLK_DOWN:
+				case SDLK_ESCAPE:
+					go = false;
 					break;
-				case SDLK_UP:
-					break;
-				case SDLK_LEFT:
-					break;
-				case SDLK_RIGHT:
-					break;
-				case SDLK_a:
-					break;
-				case SDLK_d:
-					break;
-				case SDLK_w:
-					break;
-				case SDLK_s:
+
+				default:
+					playerShip->handleInputs(incomingEvent);
 					break;
 				}
 				break;
+			
 			}
 		}
 

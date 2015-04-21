@@ -13,9 +13,21 @@ public:
 	void update(float dt);
 
 	void toggleForwardMovement() { allowedToMove = !allowedToMove; }
+
+	void handleInputs(SDL_Event e);
 protected:
 	/** @brief Is the Ship currently allowed to move */
 	bool allowedToMove;
 
-	const int forwardSpeed = 4;
+	const int forwardSpeed = 2;
+
+	void directionMovement();
+
+	const int speed = 4;
+
+	/** @brief Is the ship moving in a certain direction. */
+	bool movingLeft, movingRight, movingUp, movingDown;
+
+	/** @brief The 2 Dimensional velocity. (no Z, only left, right, up, down) */
+	glm::vec2 velocity;
 };
