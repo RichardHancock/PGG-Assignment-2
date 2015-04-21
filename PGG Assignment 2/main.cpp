@@ -5,8 +5,6 @@
 #include <iostream>
 #include <windows.h>
 
-// The GLM library contains vector and matrix functions and classes for us to use
-// They are designed to easily work with OpenGL!
 #include <glm.hpp> // This is the main GLM header
 #include <gtc/matrix_transform.hpp> // This one lets us use matrix transformations
 
@@ -14,6 +12,7 @@
 #include "Utility.h"
 #include "Entity.h"
 #include "Camera.h"
+#include "Target.h"
 
 
 //This forces NVIDIA hybrid GPU's (Intel and Nvidia integrated) to use the high performance NVidia chip rather than the Intel.
@@ -142,7 +141,7 @@ int main(int argc, char *argv[])
 	Shader* standardShader = new Shader(shadPath + "vertex.shader", shadPath + "fragment.shader");
 
 	Entity* test = new Entity(glm::vec3(0), "resources/models/test2.obj", "resources/models/HULL.png", resourceManager);
-	Entity* barrel = new Entity(glm::vec3(0, 1, 4), "resources/models/barrel.obj", "resources/models/barrel_3_diffuse.png", resourceManager);
+	Target* barrel = new Target(glm::vec3(3, 0, 0), "resources/models/barrel.obj", "resources/models/barrel_3_diffuse.png", resourceManager);
 
 	bool go = true;
 	while (go)

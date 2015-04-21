@@ -19,6 +19,11 @@ Entity::Entity(glm::vec3 initPosition, std::string modelFilename, std::string te
 	}
 }
 
+Entity::~Entity()
+{
+
+}
+
 void Entity::draw(glm::mat4& viewMatrix, glm::mat4& projMatrix, Shader* shader)
 {
 	model->draw(modelMatrix, viewMatrix, projMatrix, shader);
