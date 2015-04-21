@@ -7,7 +7,6 @@
 #include <string>
 #include <SDL.h>
 #include <unordered_map>
-
 #include "Vec2.h"
 
 /**
@@ -15,8 +14,11 @@
 */
 namespace Utility
 {
-	///The dimensions of the tiles
-	const float tileDimension = 32.0f;
+	const float PI = 3.1415926535f;
+
+	const float HALF_PI = PI * 0.5f;
+
+	const float QUARTER_PI = PI * 0.25f;
 
 	/**
 	@brief Initialize the Random Number functions

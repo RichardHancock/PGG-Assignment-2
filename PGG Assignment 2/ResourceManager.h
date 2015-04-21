@@ -25,7 +25,7 @@ public:
 
 	Audio* getAudio(std::string audioFilename, bool isMusic);
 
-	GameModel* getModel(std::string modelFilename);
+	GameModel* getModel(std::string modelFilename, std::string textureFilename);
 
 	Texture* getTexture(std::string textureFilename);
 

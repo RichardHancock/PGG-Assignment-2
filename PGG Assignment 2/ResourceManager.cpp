@@ -37,7 +37,7 @@ Audio* ResourceManager::getAudio(std::string audioFilename, bool isMusic)
 	return audioFile;
 }
 
-GameModel* ResourceManager::getModel(std::string modelFilename)
+GameModel* ResourceManager::getModel(std::string modelFilename, std::string textureFilename)
 {
 	if (models.count(modelFilename) > 0)
 	{
@@ -45,7 +45,7 @@ GameModel* ResourceManager::getModel(std::string modelFilename)
 		return models[modelFilename].first;
 	}
 
-	GameModel* modelData = new GameModel(modelFilename, this);
+	GameModel* modelData = new GameModel(modelFilename, textureFilename, this);
 
 	Resource resourceData;
 	resourceData.instances = 1;

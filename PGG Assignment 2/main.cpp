@@ -13,6 +13,7 @@
 #include "ResourceManager.h"
 #include "Utility.h"
 #include "Entity.h"
+#include "Camera.h"
 
 
 //This forces NVIDIA hybrid GPU's (Intel and Nvidia integrated) to use the high performance NVidia chip rather than the Intel.
@@ -83,14 +84,14 @@ int main(int argc, char *argv[])
 	// Now we have got SDL initialised, we are ready to create a window!
 	// These are some variables to help show you what the parameters are for this function
 	// You can experiment with the numbers to see what they do
-	int winPosX = 100;
-	int winPosY = 100;
+	int winPosX = SDL_WINDOWPOS_CENTERED;
+	int winPosY = SDL_WINDOWPOS_CENTERED;
 	int winWidth = 640;
 	int winHeight = 480;
-	SDL_Window *window = SDL_CreateWindow("My Window!!!",  // The first parameter is the window title
+	SDL_Window *window = SDL_CreateWindow("PGG Assignment 2 by Richard Hancock",  // The first parameter is the window title
 		winPosX, winPosY,
 		winWidth, winHeight,
-		SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
+		SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
 	// The last parameter lets us specify a number of options
 	// Here, we tell SDL that we want the window to be shown and that it can be resized
 	// You can learn more about SDL_CreateWindow here: https://wiki.libsdl.org/SDL_CreateWindow?highlight=%28\bCategoryVideo\b%29|%28CategoryEnum%29|%28CategoryStruct%29
@@ -135,56 +136,30 @@ int main(int argc, char *argv[])
 
 	ResourceManager* resourceManager = new ResourceManager(renderer);
 
+	Camera* camera = new Camera();
+
 	std::string shadPath = "resources/shaders/";
 	Shader* standardShader = new Shader(shadPath + "vertex.shader", shadPath + "fragment.shader");
 
-	Entity* test = new Entity(glm::vec3(0), "resources/models/test2.obj", resourceManager);
+	Entity* test = new Entity(glm::vec3(0), "resources/models/test2.obj", "resources/models/HULL.png", resourceManager);
+	Entity* barrel = new Entity(glm::vec3(0, 1, 4), "resources/models/barrel.obj", "resources/models/barrel_3_diffuse.png", resourceManager);
 
-
-	// We are now preparing for our main loop (also known as the 'game loop')
-	// This loop will keep going round until we exit from our program by changing the bool 'go' to the value false
-	// This loop is an important concept and forms the basis of most games you'll be writing
-	// Within this loop we generally do the following things:
-	//   * Check for input from the user (and do something about it!)
-	//   * Update our world
-	//   * Draw our world
-	// We will come back to this in later lectures
 	bool go = true;
 	while (go)
 	{
 
-		// Here we are going to check for any input events
-		// Basically when you press the keyboard or move the mouse, the parameters are stored as something called an 'event'
-		// SDL has a queue of events
-		// We need to check for each event and then do something about it (called 'event handling')
-		// the SDL_Event is the datatype for the event
 		SDL_Event incomingEvent;
-		// SDL_PollEvent will check if there is an event in the queue
-		// If there's nothing in the queue it won't sit and wait around for an event to come along (there are functions which do this, and that can be useful too!)
-		// For an empty queue it will simply return 'false'
-		// If there is an event, the function will return 'true' and it will fill the 'incomingEvent' we have given it as a parameter with the event data
+		
 		while (SDL_PollEvent(&incomingEvent))
 		{
-			// If we get in here, we have an event and need to figure out what to do with it
-			// For now, we will just use a switch based on the event's type
+			
 			switch (incomingEvent.type)
 			{
 			case SDL_QUIT:
-				// The event type is SDL_QUIT
-				// This means we have been asked to quit - probably the user clicked on the 'x' at the top right corner of the window
-				// To quit we need to set our 'go' bool to false so that we can escape out of the game loop
 				go = false;
 				break;
-
-				// If you want to learn more about event handling and different SDL event types, see:
-				// https://wiki.libsdl.org/SDL_Event
-				// and also: https://wiki.libsdl.org/SDL_EventType
-				// but don't worry, we'll be looking at handling user keyboard and mouse input soon
-
 			case SDL_KEYDOWN:
-				// The event type is SDL_KEYDOWN
-				// This means that the user has pressed a key
-				// Let's figure out which key they pressed
+				
 				switch (incomingEvent.key.keysym.sym)
 				{
 				case SDLK_DOWN:
@@ -208,47 +183,35 @@ int main(int argc, char *argv[])
 			}
 		}
 
-
-		// Update our world
-
-		// We are going to work out the time between each frame now
 		// First, find the current time
 		// again, SDL_GetTicks() returns the time in milliseconds since SDL was initialised
 		// We can use this as the current time
 		unsigned int current = SDL_GetTicks();
-		// Next, we want to work out the change in time between the previous frame and the current one
-		// This is a 'delta' (used in physics to denote a change in something)
-		// So we call it our 'deltaT' and I like to use an 's' to remind me that it's in seconds!
-		// (To get it in seconds we need to divide by 1000 to convert from milliseconds)
+		
 		float deltaTs = (float)(current - lastTime) / 1000.0f;
+
 		// Now that we've done this we can use the current time as the next frame's previous time
 		lastTime = current;
 
 		// Update the model, to make it rotate
 		test->update(deltaTs);
-
-
+		barrel->update(deltaTs);
+		camera->updateViewMat(test->getPos());
 
 		// Draw our world
 
 		// Specify the colour to clear the framebuffer to
-		glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		// This writes the above colour to the colour part of the framebuffer
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		
+		glm::mat4 Projection = camera->getProjMatrix();
 
-
-
-		// Construct a projection matrix for the camera
-		glm::mat4 Projection = glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.0f);
-
-		// Create a viewing matrix for the camera
-		// Don't forget, this is the opposite of where the camera actually is
-		// You can think of this as moving the world away from the camera
-		glm::mat4 View = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, -2.5f));
+		glm::mat4 View = camera->getViewMatrix();
 		
 		// Draw the object using the given view (which contains the camera orientation) and projection (which contains information about the camera 'lense')
 		test->draw(View, Projection, standardShader);
-		
+		barrel->draw(View, Projection, standardShader);
 		glm::mat4 Projection2D = glm::ortho(0, winWidth, winHeight, 0);
 
 		// This tells the renderer to actually show its contents to the screen

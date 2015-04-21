@@ -13,10 +13,12 @@ public:
 	
 	 @param initPosition	 The initial position of the Entity.
 	 @param modelFilename    Filename of the model file.
-	 @param [in,out] Resource Manager
+	 @param textureFilename  Filename of the model's texture.
+	 @param [in,out] manager  Resource manager.
 	 */
 
-	Entity(glm::vec3 initPosition, std::string modelFilename, ResourceManager* manager);
+	Entity(glm::vec3 initPosition, std::string modelFilename, std::string textureFilename, 
+		ResourceManager* manager);
 
 	~Entity();
 
@@ -36,6 +38,7 @@ public:
 	*/
 	void draw(glm::mat4& viewMatrix, glm::mat4& projMatrix, Shader* shader);
 
+	glm::vec3 getPos() { return pos; }
 protected:
 
 	/// Object position vector

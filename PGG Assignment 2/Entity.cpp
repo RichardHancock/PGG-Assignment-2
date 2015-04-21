@@ -3,8 +3,9 @@
 #include <gtc/type_ptr.hpp>
 #include <gtc/matrix_transform.hpp>
 
-Entity::Entity(glm::vec3 initPosition, std::string modelFilename, ResourceManager* manager)
-	: pos(initPosition)
+Entity::Entity(glm::vec3 initPosition, std::string modelFilename, std::string textureFilename,
+	ResourceManager* manager) 
+		: pos(initPosition)
 {
 	if (manager == nullptr)
 	{
@@ -12,7 +13,7 @@ Entity::Entity(glm::vec3 initPosition, std::string modelFilename, ResourceManage
 	}
 	else
 	{
-		model = manager->getModel(modelFilename);
+		model = manager->getModel(modelFilename, textureFilename);
 		if (model == nullptr)
 			Utility::log(Utility::E, "Model load in Entity returned NULL");
 	}

@@ -16,7 +16,7 @@ class GameModel
 public:
 
 	/// Constructor calls InitialiseVAO
-	GameModel(std::string modelFilename, ResourceManager* manager);
+	GameModel(std::string modelFilename, std::string textureFilename, ResourceManager* manager);
 	~GameModel();
 
 	/**

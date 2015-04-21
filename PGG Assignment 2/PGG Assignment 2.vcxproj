@@ -77,6 +77,7 @@
     <ClInclude Include="audio\Audio.h" />
     <ClInclude Include="audio\Music.h" />
     <ClInclude Include="audio\SFX.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="GameModel.h" />
     <ClInclude Include="glew.h" />
@@ -94,6 +95,7 @@
     <ClCompile Include="audio\Audio.cpp" />
     <ClCompile Include="audio\Music.cpp" />
     <ClCompile Include="audio\SFX.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="GameModel.cpp" />
     <ClCompile Include="glew.cpp" />

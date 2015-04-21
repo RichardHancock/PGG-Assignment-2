@@ -10,7 +10,7 @@
 #include "Vertex.h"
 #include "Utility.h"
 
-GameModel::GameModel(std::string modelFilename, ResourceManager* manager)
+GameModel::GameModel(std::string modelFilename, std::string textureFilename, ResourceManager* manager)
 {
 	// Initialise variables
 	VAO = 0;
@@ -19,7 +19,7 @@ GameModel::GameModel(std::string modelFilename, ResourceManager* manager)
 	
 	Utility::log(Utility::I, "Loading model: " + modelFilename);
 
-	texture = manager->getTexture("resources/models/HULL.png");
+	texture = manager->getTexture(textureFilename);
 
 	// Create the model
 	initialiseVAO(modelFilename);
