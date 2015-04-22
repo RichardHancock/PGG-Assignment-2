@@ -94,6 +94,7 @@
     <ClInclude Include="Target.h" />
     <ClInclude Include="TargetManager.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="UI.h" />
     <ClInclude Include="Utility.h" />
     <ClInclude Include="Vec2.h" />
     <ClInclude Include="Vec3.h" />
@@ -120,6 +121,7 @@
     <ClCompile Include="Target.cpp" />
     <ClCompile Include="TargetManager.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="UI.cpp" />
     <ClCompile Include="Utility.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

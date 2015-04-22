@@ -1,4 +1,5 @@
 #include <SDL.h>
+#include "SDL_mixer.h"
 
 #include "dependencies/glew.h"
 
@@ -54,6 +55,10 @@ int main(int argc, char *argv[])
 		Utility::log(Utility::E,"Whoops! Something went very wrong, cannot initialise SDL");
 		return -1;
 	}
+
+	TTF_Init();
+
+	
 
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
 	

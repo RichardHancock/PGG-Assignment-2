@@ -7,6 +7,7 @@
 #include "Shader.h"
 #include "Texture.h"
 #include "ResourceManager.h"
+#include "Vertex.h"
 
 class ResourceManager;
 
@@ -17,6 +18,8 @@ public:
 
 	/// Constructor calls InitialiseVAO
 	GameModel(std::string modelFilename, std::string textureFilename, ResourceManager* manager);
+
+	GameModel(std::vector<Vertex> vertexData, std::string textureFilename, ResourceManager* manager);
 	~GameModel();
 
 	/**
@@ -37,8 +40,12 @@ private:
 
 	Texture* texture;
 
+	bool disableMatUniforms;
+
 	/// Loads object model into OpenGL
 	void initialiseVAO(std::string modelFilename);
+
+	void initialiseVAO(std::vector<Vertex> vertexData);
 
 	/// Number of vertices in the model
 	unsigned int numVertices;

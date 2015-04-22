@@ -5,11 +5,13 @@
 #include "State.h"
 #include "StateManager.h"
 
-#include "../Utility.h"
 #include "../Player.h"
 #include "../Camera.h"
 #include "../TargetManager.h"
 #include "../Laser.h"
+#include "../audio/SFX.h"
+#include "../audio/Music.h"
+#include "../UI.h"
 
 #pragma once
 
@@ -54,23 +56,41 @@ private:
 	*/
 	void collision(float);
 
+	/** @brief Fires a laser and adds it to the lasers vector. */
 	void fire();
 
+	/**
+	 @brief Updates the lasers and checks for any collisions.
+	
+	 @param dt The deltatime.
+	 */
 	void updateLasers(float dt);
 
+	/** @brief Is the player trying to fire */
 	bool firing;
 
+	/** @brief The score. */
 	unsigned int score;
 
+	/** @brief A standard shader that renders and textures a 3D object */
 	Shader* standardShader;
 
+	Shader* shader2D;
+
+	/** @brief The camera that holds the View and Projection matrices. */
 	Camera* camera;
 
 	//Objects
 	///The Player
 	Player* playerShip;
 	
+	/** @brief Manages the randomly spawning targets */
 	TargetManager* targetManager;
 
+	/** @brief Contains the lasers that have been fired. */
 	std::vector<Laser*> lasers;
+
+	Audio* laserSFX;
+
+	UI* buttonTest;
 };

@@ -1,4 +1,5 @@
 #include "PlayState.h"
+#include "../Utility.h"
 
 PlayState::PlayState(StateManager* manager, ResourceManager* resourceManager)
 	: State(manager, resourceManager)
@@ -11,6 +12,8 @@ PlayState::PlayState(StateManager* manager, ResourceManager* resourceManager)
 	std::string shadPath = resourceManager->shaderDir;
 	standardShader = new Shader(shadPath + "vertex.shader", shadPath + "fragment.shader");
 
+	shader2D = new Shader(shadPath + "2D vertex.shader", shadPath + "2D fragment.shader");
+
 	camera = new Camera();
 
 	playerShip = new Player(glm::vec3(0), glm::vec3(0, Utility::HALF_PI, 0), glm::vec3(0.2, 0.2, 0.2),
@@ -18,8 +21,14 @@ PlayState::PlayState(StateManager* manager, ResourceManager* resourceManager)
 
 	targetManager = new TargetManager(8, glm::vec2(10, 6), resourceManager);
 
+	//laserSFX = resourceManager->getAudio(".ogg", false);
+
+	buttonTest = new UI(glm::vec2(0.5f, 0.7f), glm::vec2(0.45f, 0.25f), "buttonTest.png", resourceManager);
+
+	//Start the spawning and make the player start moving forward
 	playerShip->toggleForwardMovement();
 	targetManager->initSpawning();
+
 	firing = false;
 	Utility::Timer::createTimer("FireDelay", 0.2f);
 }
@@ -117,7 +126,7 @@ void PlayState::render()
 
 	targetManager->draw(View, Projection, standardShader);
 
-	//glm::mat4 Projection2D = glm::ortho(0, winWidth, winHeight, 0);
+	buttonTest->draw(shader2D);
 }
 
 void PlayState::collision(float dt)
