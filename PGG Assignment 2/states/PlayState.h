@@ -50,11 +50,7 @@ public:
 
 private:
 	
-	/**
-	@brief Check if the player is going to collide with the scenery next frame
-	@param float - DeltaTime
-	*/
-	void collision(float);
+	void refreshUI();
 
 	/** @brief Fires a laser and adds it to the lasers vector. */
 	void fire();
@@ -91,6 +87,15 @@ private:
 	std::vector<Laser*> lasers;
 
 	Audio* laserSFX;
+	Audio* shipTargetCollisionSFX;
+	Audio* targetExplosionSFX;
 
-	UI* buttonTest;
+	Audio* bgMusic;
+
+	TTF_Font* font;
+
+	UI* buttonBG1;
+	UI* buttonBG2;
+	UI* buttonText1;
+	UI* buttonText2;
 };

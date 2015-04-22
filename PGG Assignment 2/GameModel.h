@@ -2,6 +2,7 @@
 
 #include <glm.hpp>
 #include <SDL.h>
+#include <SDL_ttf.h>
 #include "dependencies/glew.h"
 #include <string>
 #include "Shader.h"
@@ -18,6 +19,8 @@ public:
 
 	/// Constructor calls InitialiseVAO
 	GameModel(std::string modelFilename, std::string textureFilename, ResourceManager* manager);
+
+	GameModel(std::vector<Vertex> vertexData, std::string text, TTF_Font* font, ResourceManager* manager);
 
 	GameModel(std::vector<Vertex> vertexData, std::string textureFilename, ResourceManager* manager);
 	~GameModel();
@@ -46,6 +49,8 @@ private:
 	void initialiseVAO(std::string modelFilename);
 
 	void initialiseVAO(std::vector<Vertex> vertexData);
+
+	void initialiseVAO(std::vector<Vertex> vertexData, SDL_Surface* surface);
 
 	/// Number of vertices in the model
 	unsigned int numVertices;

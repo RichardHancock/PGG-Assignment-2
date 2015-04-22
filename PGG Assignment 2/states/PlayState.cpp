@@ -21,9 +21,24 @@ PlayState::PlayState(StateManager* manager, ResourceManager* resourceManager)
 
 	targetManager = new TargetManager(8, glm::vec2(10, 6), resourceManager);
 
-	//laserSFX = resourceManager->getAudio(".ogg", false);
+	laserSFX = resourceManager->getAudio("laser.wav", false);
+	shipTargetCollisionSFX = resourceManager->getAudio("bong.wav", false);
+	targetExplosionSFX = resourceManager->getAudio("explosion.wav", false);
+	bgMusic = resourceManager->getAudio("Cephalopod.wav", true);
 
-	buttonTest = new UI(glm::vec2(0.5f, 0.7f), glm::vec2(0.45f, 0.25f), "buttonTest.png", resourceManager);
+	bgMusic->play(0, -1);
+
+	font = TTF_OpenFont("resources/fonts/OpenSans-Regular.ttf", 28);
+
+	if (font == nullptr)
+	{
+		Utility::log(Utility::I, "Font in play state failed to load");
+	}
+
+	buttonBG1 = new UI(glm::vec2(0.5f, 0.7f), glm::vec2(0.45f, 0.25f), "buttonBG.png", resourceManager);
+	buttonBG2 = new UI(glm::vec2(-0.95f, 0.7f), glm::vec2(0.45f, 0.25f), "buttonBG.png", resourceManager);
+	
+	refreshUI();
 
 	//Start the spawning and make the player start moving forward
 	playerShip->toggleForwardMovement();
@@ -35,7 +50,28 @@ PlayState::PlayState(StateManager* manager, ResourceManager* resourceManager)
 
 PlayState::~PlayState()
 {
+	bgMusic->stop(0);
+	laserSFX->stop(0);
+	shipTargetCollisionSFX->stop(0);
+	targetExplosionSFX->stop(0);
 
+	delete buttonBG1;
+	delete buttonBG2;
+	delete buttonText1;
+	delete buttonText2;
+
+	TTF_CloseFont(font);
+
+	delete bgMusic;
+	delete laserSFX;
+	delete shipTargetCollisionSFX;
+	delete targetExplosionSFX;
+
+	delete targetManager;
+	delete playerShip;
+	delete camera;
+	delete shader2D;
+	delete standardShader;
 }
 
 bool PlayState::eventHandler()
@@ -102,8 +138,10 @@ void PlayState::update(float dt)
 	//Collision
 	if (targetManager->checkForCollisions(playerShip->getAABB()))
 	{
-		Utility::log(Utility::I, "Colliding");
 		playerShip->hit();
+		shipTargetCollisionSFX->play(0, 0);
+
+		refreshUI();
 	}
 
 	//Updates Lasers and checks for collisions
@@ -126,12 +164,24 @@ void PlayState::render()
 
 	targetManager->draw(View, Projection, standardShader);
 
-	buttonTest->draw(shader2D);
+	buttonBG1->draw(shader2D);
+	buttonBG2->draw(shader2D);
+	buttonText1->draw(shader2D);
+	buttonText2->draw(shader2D);
 }
 
-void PlayState::collision(float dt)
+void PlayState::refreshUI()
 {
+	delete buttonText1;
+	delete buttonText2;
 	
+	//Show the Player's current lives
+	buttonText1 = new UI(glm::vec2(0.5f, 0.7f), glm::vec2(0.45f, 0.25f),
+		"Lives: " + std::to_string(playerShip->getCurrentLife()), font, resourceManager);
+
+	//Show the Player's current score
+	buttonText2 = new UI(glm::vec2(-0.95f, 0.7f), glm::vec2(0.45f, 0.25f),
+		"Score: " + std::to_string(score), font, resourceManager);
 }
 
 void PlayState::fire()
@@ -141,6 +191,8 @@ void PlayState::fire()
 	glm::vec3 scale = glm::vec3(0.2, 0.2, 0.2);
 	lasers.push_back(new Laser(laserPos, rotation, scale, "laser.obj",
 		"laser.png", resourceManager));
+	
+	laserSFX->play(0, 0);
 
 	Utility::Timer::createTimer("FireDelay", 1.0f);
 }
@@ -157,9 +209,11 @@ void PlayState::updateLasers(float dt)
 
 		if (targetManager->checkForCollisions(curLaser->getAABB()))
 		{
-			Utility::log(Utility::I, " Laser Colliding");
-			score += 10;
+			score++;
 			curLaser->hit();
+
+			targetExplosionSFX->play(0, 0);
+			refreshUI();
 		}
 
 		if (curLaser->isDead())

@@ -10,7 +10,9 @@ UI::UI(glm::vec2 pos, glm::vec2 dimensions, std::string textureFilename, Resourc
 
 UI::UI(glm::vec2 pos, glm::vec2 dimensions, std::string text, TTF_Font* font, ResourceManager* manager)
 {
+	std::vector<Vertex> vertexData = createVertices(pos, dimensions);
 
+	uiElement = new GameModel(vertexData, text, font, manager);
 }
 
 std::vector<Vertex> UI::createVertices(glm::vec2 pos, glm::vec2 dimensions)

@@ -58,7 +58,12 @@ int main(int argc, char *argv[])
 
 	TTF_Init();
 
-	
+	Mix_Init(MIX_INIT_OGG);
+
+	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+	{
+		Utility::log(Utility::E, "SDL_mixer init failed: " + std::string(Mix_GetError()));
+	}
 
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
 	
@@ -140,8 +145,13 @@ int main(int argc, char *argv[])
 
 	// If we get outside the main game loop, it means our user has requested we exit
 
+	manager->popLastState();
+	delete manager;
 
 	// Our cleanup phase, hopefully fairly self-explanatory ;)
+	IMG_Quit();
+	Mix_CloseAudio();
+	Mix_Quit();
 	SDL_GL_DeleteContext(glcontext);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
