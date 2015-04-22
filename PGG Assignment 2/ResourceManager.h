@@ -42,7 +42,7 @@ public:
 
 	SDL_Renderer* getRenderer() { return renderer; }
 
-	const std::string modelDir, shaderDir, audioDir;
+	const std::string modelDir, shaderDir, audioDir, textureDir;
 
 private:
 

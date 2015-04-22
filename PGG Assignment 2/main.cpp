@@ -59,8 +59,8 @@ void fire()
 	glm::vec3 laserPos = playerShip->getTurretPos();
 	glm::vec3 rotation = glm::vec3(Utility::HALF_PI, 0, 0);
 	glm::vec3 scale = glm::vec3(0.2, 0.2, 0.2);
-	laser = new Laser(laserPos, rotation, scale, "resources/models/laser.obj",
-		"resources/models/laser.png", resourceManager);
+	laser = new Laser(laserPos, rotation, scale, "laser.obj",
+		"laser.png", resourceManager);
 }
 
 int main(int argc, char *argv[])
@@ -152,11 +152,12 @@ int main(int argc, char *argv[])
 
 	Camera* camera = new Camera();
 
-	std::string shadPath = "resources/shaders/";
+	std::string shadPath = resourceManager->shaderDir;
+
 	Shader* standardShader = new Shader(shadPath + "vertex.shader", shadPath + "fragment.shader");
 
 	playerShip = new Player(glm::vec3(0), glm::vec3(0, Utility::HALF_PI, 0), glm::vec3(0.2,0.2,0.2), 
-		"resources/models/test2.obj", "resources/models/HULL.png", resourceManager);
+		"ship.obj", "ship.png", resourceManager);
 	//barrel = new Target(glm::vec3(0, 0, -7), glm::vec3(0, 0, 0), glm::vec3(0.2, 0.2, 0.2),
 		//"resources/models/barrel.obj", "resources/models/barrel_3_diffuse.png", resourceManager);
 	targetManager = new TargetManager(8, glm::vec2(10, 6), resourceManager);

@@ -119,6 +119,6 @@ void Player::handleInputs(SDL_Event e)
 void Player::recalculateTurretPos()
 {
 	turretPos = pos;
-	turretPos.y += 0.1;
-	turretPos.z -= 3;
+	turretPos.y += 0.1f;
+	turretPos.z -= 3.0f;
 }

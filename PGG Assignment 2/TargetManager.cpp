@@ -102,11 +102,8 @@ void TargetManager::spawnTarget()
 
 	glm::vec3 spawnPos = glm::vec3(x, y, nextSpawnZPos);
 
-	//Shorthand
-	ResourceManager* res = resourceManager;
-	
-	Target* newTarget = new Target(spawnPos, glm::vec3(0), glm::vec3(0.2f), res->modelDir + "barrel.obj",
-		res->modelDir + "barrel_3_diffuse.png", res);
+	Target* newTarget = new Target(spawnPos, glm::vec3(0), glm::vec3(0.2f), 
+		"barrel.obj", "barrel.png", resourceManager);
 
 	targets.push_back(newTarget);
 

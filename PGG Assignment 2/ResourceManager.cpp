@@ -4,13 +4,16 @@
 #include "audio/SFX.h"
 
 ResourceManager::ResourceManager(SDL_Renderer* renderer)
-	: renderer(renderer), modelDir("resources/models/"), audioDir("resources/audio/"), shaderDir("resources/shaders/")
+	: renderer(renderer), modelDir("resources/models/"), audioDir("resources/audio/"), 
+	shaderDir("resources/shaders/"), textureDir("resources/textures/")
 {
 
 }
 
 Audio* ResourceManager::getAudio(std::string audioFilename, bool isMusic)
 {
+	audioFilename = audioDir + audioFilename;
+
 	if (audio.count(audioFilename) > 0)
 	{
 		audio[audioFilename].second.instances++;
@@ -39,6 +42,8 @@ Audio* ResourceManager::getAudio(std::string audioFilename, bool isMusic)
 
 GameModel* ResourceManager::getModel(std::string modelFilename, std::string textureFilename)
 {
+	modelFilename = modelDir + modelFilename;
+
 	if (models.count(modelFilename) > 0)
 	{
 		models[modelFilename].second.instances++;
@@ -58,6 +63,8 @@ GameModel* ResourceManager::getModel(std::string modelFilename, std::string text
 
 Texture* ResourceManager::getTexture(std::string textureFilename)
 {
+	textureFilename = textureDir + textureFilename;
+
 	if (textures.count(textureFilename) > 0)
 	{
 		textures[textureFilename].second.instances++;
@@ -81,6 +88,8 @@ void ResourceManager::freeResourceInstance(std::string filename, ResourceTypes r
 	switch (resourceType)
 	{
 	case ModelFile:
+		filename = modelDir + filename;
+
 		models[filename].second.instances--;
 		
 		if (models[filename].second.instances <= 0 && !models[filename].second.keepLoaded)
@@ -91,6 +100,8 @@ void ResourceManager::freeResourceInstance(std::string filename, ResourceTypes r
 
 		break;
 	case AudioFile:
+		filename = audioDir + filename;
+
 		audio[filename].second.instances--;
 
 		if (audio[filename].second.instances <= 0 && !audio[filename].second.keepLoaded)
@@ -101,6 +112,8 @@ void ResourceManager::freeResourceInstance(std::string filename, ResourceTypes r
 
 		break;
 	case TextureFile:
+		filename = textureDir + filename;
+
 		textures[filename].second.instances--;
 
 		if (textures[filename].second.instances <= 0 && !textures[filename].second.keepLoaded)
@@ -118,15 +131,15 @@ void ResourceManager::keepResourceLoaded(std::string filename, ResourceTypes res
 	switch (resourceType)
 	{
 	case ModelFile:
-		models[filename].second.keepLoaded = true;
+		models[modelDir + filename].second.keepLoaded = true;
 
 		break;
 	case AudioFile:
-		audio[filename].second.keepLoaded = true;
+		audio[audioDir + filename].second.keepLoaded = true;
 
 		break;
 	case TextureFile:
-		textures[filename].second.keepLoaded = true;
+		textures[textureDir + filename].second.keepLoaded = true;
 
 		break;
 	}
