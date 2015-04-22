@@ -21,11 +21,17 @@ public:
 	int getCurrentLife() { return lives; }
 
 	bool isDead() { return (lives <= 0); }
+
+	glm::vec3 getTurretPos() { return turretPos; }
 protected:
 	/** @brief Is the Ship currently allowed to move */
 	bool allowedToMove;
 
+	glm::vec3 turretPos;
+
 	const int forwardSpeed = 2;
+
+	void recalculateTurretPos();
 
 	void directionMovement();
 

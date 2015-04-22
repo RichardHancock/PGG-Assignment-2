@@ -13,6 +13,7 @@
 #include "Camera.h"
 #include "Target.h"
 #include "Player.h"
+#include "Laser.h"
 
 
 //This forces NVIDIA hybrid GPU's (Intel and Nvidia integrated) to use the high performance NVidia chip rather than the Intel.
@@ -20,6 +21,11 @@
 extern "C" {
 	_declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
 }
+
+Laser* laser;
+ResourceManager* resourceManager;
+Player* playerShip;
+Target* barrel;
 
 
 // An initialisation function, mainly for GLEW
@@ -49,6 +55,14 @@ bool InitGL()
 	return true;
 }
 
+void fire()
+{
+	glm::vec3 laserPos = playerShip->getTurretPos();
+	glm::vec3 rotation = glm::vec3(Utility::HALF_PI, 0, 0);
+	glm::vec3 scale = glm::vec3(0.2, 0.2, 0.2);
+	laser = new Laser(laserPos, rotation, scale, "resources/models/laser.obj",
+		"resources/models/laser.png", resourceManager);
+}
 
 int main(int argc, char *argv[])
 {
@@ -133,21 +147,21 @@ int main(int argc, char *argv[])
 	// Enable the depth test to make sure triangles in front are always in front no matter the order they are drawn
 	glEnable(GL_DEPTH_TEST);
 
-	ResourceManager* resourceManager = new ResourceManager(renderer);
+	resourceManager = new ResourceManager(renderer);
 
 	Camera* camera = new Camera();
 
 	std::string shadPath = "resources/shaders/";
 	Shader* standardShader = new Shader(shadPath + "vertex.shader", shadPath + "fragment.shader");
 
-	Player* playerShip = new Player(glm::vec3(0), glm::vec3(0, Utility::HALF_PI, 0), glm::vec3(0.2,0.2,0.2), 
+	playerShip = new Player(glm::vec3(0), glm::vec3(0, Utility::HALF_PI, 0), glm::vec3(0.2,0.2,0.2), 
 		"resources/models/test2.obj", "resources/models/HULL.png", resourceManager);
-	Target* barrel = new Target(glm::vec3(0, 0, -7), glm::vec3(0, 0, 0), glm::vec3(0.2, 0.2, 0.2),
+	barrel = new Target(glm::vec3(0, 0, -7), glm::vec3(0, 0, 0), glm::vec3(0.2, 0.2, 0.2),
 		"resources/models/barrel.obj", "resources/models/barrel_3_diffuse.png", resourceManager);
-
+	
 	unsigned int score = 0;
 
-	playerShip->toggleForwardMovement();
+	//playerShip->toggleForwardMovement();
 
 	bool go = true;
 	while (go)
@@ -174,7 +188,9 @@ int main(int argc, char *argv[])
 					break;
 				
 				case SDLK_SPACE:
-					
+
+					fire();
+					 
 					break;
 
 				default:
@@ -199,11 +215,24 @@ int main(int argc, char *argv[])
 		// Update the model, to make it rotate
 		playerShip->update(deltaTs);
 		barrel->update(deltaTs);
+
+		if (laser != nullptr)
+			laser->update(deltaTs);
+
 		camera->updateViewMat(playerShip->getPos());
 
 		if (playerShip->getAABB()->collides(barrel->getAABB()) == true)
 		{
 			Utility::log(Utility::I, "Colliding");
+		}
+
+		if (laser != nullptr)
+		{
+			if (laser->getAABB()->collides(barrel->getAABB()) == true)
+			{
+				Utility::log(Utility::I, " Laser Colliding");
+				score += 10;
+			}
 		}
 
 		// Draw our world
@@ -220,6 +249,8 @@ int main(int argc, char *argv[])
 		// Draw the object using the given view (which contains the camera orientation) and projection (which contains information about the camera 'lense')
 		playerShip->draw(View, Projection, standardShader);
 		barrel->draw(View, Projection, standardShader);
+		if (laser != nullptr)
+			laser->draw(View, Projection, standardShader);
 		
 		glm::mat4 Projection2D = glm::ortho(0, winWidth, winHeight, 0);
 

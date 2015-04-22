@@ -124,14 +124,7 @@ void GameModel::initialiseVAO(std::string modelFilename)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glBindTexture(GL_TEXTURE_2D, 0);
-	/*
-	char* uniform_name = "textureInput";
-	GLint uniform_mytexture = glGetUniformLocation(program, uniform_name);
-	if (uniform_mytexture == -1) {
-		fprintf(stderr, "Could not bind uniform %s\n", uniform_name);
-		return 0;
-	}
-	*/
+
 	// Unbind for neatness, it just makes life easier
 	// As a general tip, especially as you're still learning, for each function that needs to do something specific try to return OpenGL in the state you found it in
 	// This means you will need to set the states at the beginning of your function and set them back at the end
