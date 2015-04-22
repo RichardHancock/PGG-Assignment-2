@@ -42,6 +42,8 @@ public:
 
 	SDL_Renderer* getRenderer() { return renderer; }
 
+	const std::string modelDir, shaderDir, audioDir;
+
 private:
 
 	std::unordered_map<std::string, std::pair<GameModel*, Resource>> models;
@@ -51,4 +53,6 @@ private:
 	std::unordered_map<std::string, std::pair<Texture*, Resource>> textures;
 	
 	SDL_Renderer* renderer;
+
+	
 };

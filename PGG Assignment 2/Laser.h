@@ -20,6 +20,6 @@ private:
 
 	bool dead;
 
-	const int speed = 8;
+	const int speed = 16;
 
 };

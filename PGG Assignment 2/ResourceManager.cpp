@@ -4,7 +4,7 @@
 #include "audio/SFX.h"
 
 ResourceManager::ResourceManager(SDL_Renderer* renderer)
-	: renderer(renderer)
+	: renderer(renderer), modelDir("resources/models/"), audioDir("resources/audio/"), shaderDir("resources/shaders/")
 {
 
 }

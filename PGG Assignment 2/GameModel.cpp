@@ -61,9 +61,6 @@ void GameModel::initialiseVAO(std::string modelFilename)
 		vertexData[aPos + 7] = tempVertexData[i].vt.y;
 		
 	}
-	//&vector[0]
-	//const int verticeCount = tempVertexData.size() * 3;
-	//const int normalCount = verticeCount;
 
 	// Variable for storing a VBO
 	GLuint vertexBuffer = 0;

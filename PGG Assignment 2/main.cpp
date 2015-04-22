@@ -11,7 +11,7 @@
 #include "ResourceManager.h"
 #include "Utility.h"
 #include "Camera.h"
-#include "Target.h"
+#include "TargetManager.h"
 #include "Player.h"
 #include "Laser.h"
 
@@ -25,8 +25,7 @@ extern "C" {
 Laser* laser;
 ResourceManager* resourceManager;
 Player* playerShip;
-Target* barrel;
-
+TargetManager* targetManager;
 
 // An initialisation function, mainly for GLEW
 // This will also print to console the version of OpenGL we are using
@@ -147,6 +146,8 @@ int main(int argc, char *argv[])
 	// Enable the depth test to make sure triangles in front are always in front no matter the order they are drawn
 	glEnable(GL_DEPTH_TEST);
 
+	Utility::randomInit();
+
 	resourceManager = new ResourceManager(renderer);
 
 	Camera* camera = new Camera();
@@ -156,12 +157,15 @@ int main(int argc, char *argv[])
 
 	playerShip = new Player(glm::vec3(0), glm::vec3(0, Utility::HALF_PI, 0), glm::vec3(0.2,0.2,0.2), 
 		"resources/models/test2.obj", "resources/models/HULL.png", resourceManager);
-	barrel = new Target(glm::vec3(0, 0, -7), glm::vec3(0, 0, 0), glm::vec3(0.2, 0.2, 0.2),
-		"resources/models/barrel.obj", "resources/models/barrel_3_diffuse.png", resourceManager);
-	
+	//barrel = new Target(glm::vec3(0, 0, -7), glm::vec3(0, 0, 0), glm::vec3(0.2, 0.2, 0.2),
+		//"resources/models/barrel.obj", "resources/models/barrel_3_diffuse.png", resourceManager);
+	targetManager = new TargetManager(8, glm::vec2(10, 6), resourceManager);
+
+	targetManager->initSpawning();
+
 	unsigned int score = 0;
 
-	//playerShip->toggleForwardMovement();
+	playerShip->toggleForwardMovement();
 
 	bool go = true;
 	while (go)
@@ -214,27 +218,29 @@ int main(int argc, char *argv[])
 
 		// Update the model, to make it rotate
 		playerShip->update(deltaTs);
-		barrel->update(deltaTs);
+		//barrel->update(deltaTs);
 
 		if (laser != nullptr)
 			laser->update(deltaTs);
 
-		camera->updateViewMat(playerShip->getPos());
+		targetManager->update(deltaTs, playerShip->getPos().z);
 
-		if (playerShip->getAABB()->collides(barrel->getAABB()) == true)
+		camera->updateViewMat(playerShip->getPos());
+		
+		if (targetManager->checkForCollisions(playerShip->getAABB()))
 		{
 			Utility::log(Utility::I, "Colliding");
+			playerShip->hit();
 		}
-
-		if (laser != nullptr)
+		
+		
+		if (laser != nullptr && targetManager->checkForCollisions(laser->getAABB()))
 		{
-			if (laser->getAABB()->collides(barrel->getAABB()) == true)
-			{
-				Utility::log(Utility::I, " Laser Colliding");
-				score += 10;
-			}
+			Utility::log(Utility::I, " Laser Colliding");
+			score += 10;
+			laser->hit();
 		}
-
+		
 		// Draw our world
 
 		// Specify the colour to clear the framebuffer to
@@ -248,10 +254,12 @@ int main(int argc, char *argv[])
 		
 		// Draw the object using the given view (which contains the camera orientation) and projection (which contains information about the camera 'lense')
 		playerShip->draw(View, Projection, standardShader);
-		barrel->draw(View, Projection, standardShader);
+		//barrel->draw(View, Projection, standardShader);
 		if (laser != nullptr)
 			laser->draw(View, Projection, standardShader);
 		
+		targetManager->draw(View, Projection, standardShader);
+
 		glm::mat4 Projection2D = glm::ortho(0, winWidth, winHeight, 0);
 
 		// This tells the renderer to actually show its contents to the screen

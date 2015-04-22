@@ -29,7 +29,7 @@ protected:
 
 	glm::vec3 turretPos;
 
-	const int forwardSpeed = 2;
+	const int forwardSpeed = 8;
 
 	void recalculateTurretPos();
 
