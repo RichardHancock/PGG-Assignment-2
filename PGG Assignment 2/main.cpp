@@ -22,7 +22,7 @@ extern "C" {
 	_declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
 }
 
-Laser* laser;
+std::vector<Laser*> lasers;
 ResourceManager* resourceManager;
 Player* playerShip;
 TargetManager* targetManager;
@@ -56,11 +56,16 @@ bool InitGL()
 
 void fire()
 {
-	glm::vec3 laserPos = playerShip->getTurretPos();
-	glm::vec3 rotation = glm::vec3(Utility::HALF_PI, 0, 0);
-	glm::vec3 scale = glm::vec3(0.2, 0.2, 0.2);
-	laser = new Laser(laserPos, rotation, scale, "laser.obj",
-		"laser.png", resourceManager);
+	if (Utility::Timer::hasTimerFinished("FireDelay"))
+	{
+		glm::vec3 laserPos = playerShip->getTurretPos();
+		glm::vec3 rotation = glm::vec3(Utility::HALF_PI, 0, 0);
+		glm::vec3 scale = glm::vec3(0.2, 0.2, 0.2);
+		lasers.push_back(new Laser(laserPos, rotation, scale, "laser.obj",
+			"laser.png", resourceManager));
+
+		Utility::Timer::createTimer("FireDelay", 1.0f);
+	}
 }
 
 int main(int argc, char *argv[])
@@ -164,6 +169,8 @@ int main(int argc, char *argv[])
 
 	targetManager->initSpawning();
 
+	Utility::Timer::createTimer("FireDelay", 0.2f);
+
 	unsigned int score = 0;
 
 	playerShip->toggleForwardMovement();
@@ -183,7 +190,6 @@ int main(int argc, char *argv[])
 				go = false;
 				break;
 
-			case SDL_KEYDOWN:
 			case SDL_KEYUP:
 
 				switch (incomingEvent.key.keysym.sym)
@@ -203,10 +209,14 @@ int main(int argc, char *argv[])
 					break;
 				}
 				break;
+
+			case SDL_KEYDOWN:
+				playerShip->handleInputs(incomingEvent);
+				break;
 			
 			}
 		}
-
+		//Utility::log(Utility::I, "Laser Count = " + std::to_string(lasers.size()));
 		// First, find the current time
 		// again, SDL_GetTicks() returns the time in milliseconds since SDL was initialised
 		// We can use this as the current time
@@ -219,10 +229,8 @@ int main(int argc, char *argv[])
 
 		// Update the model, to make it rotate
 		playerShip->update(deltaTs);
-		//barrel->update(deltaTs);
-
-		if (laser != nullptr)
-			laser->update(deltaTs);
+		
+		Utility::Timer::update(deltaTs);
 
 		targetManager->update(deltaTs, playerShip->getPos().z);
 
@@ -234,14 +242,39 @@ int main(int argc, char *argv[])
 			playerShip->hit();
 		}
 		
-		
-		if (laser != nullptr && targetManager->checkForCollisions(laser->getAABB()))
+
+		std::vector<unsigned int> toDelete;
+
+		for (unsigned int i = 0; i < lasers.size(); i++)
 		{
-			Utility::log(Utility::I, " Laser Colliding");
-			score += 10;
-			laser->hit();
+			auto curLaser = lasers[i];
+
+			curLaser->update(deltaTs);
+
+			if (targetManager->checkForCollisions(curLaser->getAABB()))
+			{
+				Utility::log(Utility::I, " Laser Colliding");
+				score += 10;
+				 curLaser->hit();
+			}
+
+			if (curLaser->isDead())
+			{
+				toDelete.push_back(i);
+			}
 		}
 		
+		//Delete Marked lasers
+		for (unsigned int i = 0; i < toDelete.size(); i++)
+		{
+			unsigned int indexToDelete = toDelete[i] - i;
+
+			delete lasers[indexToDelete];
+			lasers.erase(lasers.begin() + indexToDelete);
+		}
+
+		toDelete.clear();
+
 		// Draw our world
 
 		// Specify the colour to clear the framebuffer to
@@ -256,9 +289,11 @@ int main(int argc, char *argv[])
 		// Draw the object using the given view (which contains the camera orientation) and projection (which contains information about the camera 'lense')
 		playerShip->draw(View, Projection, standardShader);
 		//barrel->draw(View, Projection, standardShader);
-		if (laser != nullptr)
+		for (auto laser : lasers)
+		{
 			laser->draw(View, Projection, standardShader);
-		
+		}
+
 		targetManager->draw(View, Projection, standardShader);
 
 		glm::mat4 Projection2D = glm::ortho(0, winWidth, winHeight, 0);

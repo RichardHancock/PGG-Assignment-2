@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Entity.h"
+#include "Utility.h"
 
 class Laser : public Entity
 {
@@ -17,6 +18,7 @@ public:
 
 	bool isDead() { return dead; }
 private:
+	Utility::SimpleTimer* lifespan;
 
 	bool dead;
 

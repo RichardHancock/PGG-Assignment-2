@@ -54,6 +54,8 @@ void TargetManager::update(float dt, float playerZPos)
 		targets.erase(targets.begin() + indexToDelete);
 	}
 
+	toDelete.clear();
+
 	//Check if new target needs to be spawned
 	if (targets. size() < 15)
 	{

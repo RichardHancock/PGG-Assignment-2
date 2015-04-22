@@ -207,3 +207,46 @@ void Utility::Timer::cleanup()
 {
 	timers.clear();
 }
+
+
+//Simple Timer
+Utility::SimpleTimer::SimpleTimer(float duration)
+	: TIME_INTERVAL(1.0f)
+{
+	restart(duration);
+}
+
+void Utility::SimpleTimer::restart()
+{
+	running = true;
+	timer.currentTime = 0.0f;
+}
+
+void Utility::SimpleTimer::restart(float duration)
+{
+	running = true;
+	timer.currentTime = 0.0f;
+	timer.duration = duration;
+}
+
+bool Utility::SimpleTimer::hasTimerFinished()
+{
+	if (timer.currentTime >= timer.duration)
+	{
+		return true;
+	}
+	return false;
+}
+
+void Utility::SimpleTimer::update(float dt)
+{
+	if (running)
+	{
+		timer.currentTime += dt;
+
+		if (timer.currentTime >= timer.duration)
+		{
+			running = false;
+		}
+	}
+}

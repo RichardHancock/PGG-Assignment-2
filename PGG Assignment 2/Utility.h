@@ -186,6 +186,37 @@ namespace Utility
 		*/
 		static std::unordered_map<std::string, TimerStruct> timers;
 	};
+
+	/** @brief A simple timer. */
+	class SimpleTimer
+	{
+	private:
+		///a structure for an individual timer
+		struct TimerStruct
+		{
+			float currentTime;
+			float duration;
+		};
+	public:
+		SimpleTimer(float duration);
+		
+		void restart();
+
+		void restart(float duration);
+
+		void stop() { running = false; }
+
+		bool hasTimerFinished();
+
+		void update(float dt);
+
+	private:
+		const float TIME_INTERVAL;
+
+		TimerStruct timer;
+
+		bool running;
+	};
 }
 
 /**
