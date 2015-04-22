@@ -5,6 +5,12 @@ Player::Player(glm::vec3 initPosition, glm::vec3 rotation, glm::vec3 scale, std:
 	: Entity(initPosition, rotation, scale, modelFilename, textureFilename, manager)
 {
 	allowedToMove = false;
+
+	//These values were determined by looking through the OBJ file
+	aabb = new AABB(glm::vec3(-2.2, -0.2, -3.85), glm::vec3(10.0, 3.5, 3.85));
+	//aabb = new AABB(glm::vec3(-3.85, -0.2, -2.2), glm::vec3(3.85, 3.5, 10.0));
+	
+	lives = 3;
 }
 
 Player::~Player()

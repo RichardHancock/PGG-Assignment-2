@@ -33,7 +33,9 @@ void Entity::update(float dt)
 {
 	modelMatrix = glm::translate(glm::mat4(1.0f), pos);
 	modelMatrix = glm::scale(modelMatrix, scale);
+	aabb->update(modelMatrix);
 	rotateMat();
+	
 }
 
 void Entity::rotateMat()

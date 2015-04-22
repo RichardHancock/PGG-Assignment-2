@@ -145,6 +145,8 @@ int main(int argc, char *argv[])
 	Target* barrel = new Target(glm::vec3(0, 0, -7), glm::vec3(0, 0, 0), glm::vec3(0.2, 0.2, 0.2),
 		"resources/models/barrel.obj", "resources/models/barrel_3_diffuse.png", resourceManager);
 
+	unsigned int score = 0;
+
 	playerShip->toggleForwardMovement();
 
 	bool go = true;
@@ -170,6 +172,10 @@ int main(int argc, char *argv[])
 				case SDLK_ESCAPE:
 					go = false;
 					break;
+				
+				case SDLK_SPACE:
+					
+					break;
 
 				default:
 					playerShip->handleInputs(incomingEvent);
@@ -194,6 +200,11 @@ int main(int argc, char *argv[])
 		playerShip->update(deltaTs);
 		barrel->update(deltaTs);
 		camera->updateViewMat(playerShip->getPos());
+
+		if (playerShip->getAABB()->collides(barrel->getAABB()) == true)
+		{
+			Utility::log(Utility::I, "Colliding");
+		}
 
 		// Draw our world
 

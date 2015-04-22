@@ -3,6 +3,7 @@
 #include "ResourceManager.h"
 #include "GameModel.h"
 #include <glm.hpp>
+#include "AABB.h"
 
 class Entity
 {
@@ -46,6 +47,7 @@ public:
 
 	glm::vec3 getScale() { return scale; }
 
+	AABB* getAABB() { return aabb; }
 protected:
 
 	void rotateMat();
@@ -58,6 +60,8 @@ protected:
 	
 	/** @brief The scale. */
 	glm::vec3 scale;
+
+	AABB* aabb;
 
 	/// Object's model matrix
 	/// This is rebuilt in the update function

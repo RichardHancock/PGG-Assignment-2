@@ -2,22 +2,24 @@
 
 #include "Entity.h"
 
-class Target : public Entity
+class Laser : public Entity
 {
 public:
 
-	Target(glm::vec3 initPosition, glm::vec3 rotation, glm::vec3 scale, std::string modelFilename,
+	Laser(glm::vec3 initPosition, glm::vec3 rotation, glm::vec3 scale, std::string modelFilename,
 		std::string textureFilename, ResourceManager* manager);
 
-	~Target();
+	~Laser();
 
 	void update(float dt);
 
 	void hit() { dead = true; }
 
 	bool isDead() { return dead; }
-
-protected:
+private:
 
 	bool dead;
+
+	const int speed = 2;
+
 };
