@@ -18,15 +18,6 @@ void AABB::update(glm::mat4& modelMatrix)
 bool AABB::collides(AABB* other)
 {
 	//Function adapted from: http://www.miguelcasillas.com/?p=30
-	
-	//Utility::log(Utility::I, "Ship: " + std::to_string(min.z) + ", " + std::to_string(max.z));
-	//Utility::log(Utility::I, "Barrel: " + std::to_string(other->getMin().z) + ", " + std::to_string(other->getMax().z));
-	/*
-	if (max.z > other->getMin().z &&
-		min.z < other->getMax().z)
-	{
-		Utility::log(Utility::I, "dah fuck");
-	}*/
 
 	return(
 		//X

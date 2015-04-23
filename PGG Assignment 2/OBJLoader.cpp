@@ -148,8 +148,10 @@ bool OBJLoader::load(std::vector<Vertex> &vertexData, std::string filename)
 			readFace(line, tempIndicies);
 			break;
 		case Unhandled:
+			/*
 			std::cout << "Unhandled Line reached: " << curLine << std::endl;
 			std::cout << "Loader will skip the line but the displayed model may be distorted." << std::endl;
+			*/
 			break;
 		}
 
