@@ -83,8 +83,10 @@ PlayState::~PlayState()
 	resourceManager->freeResourceInstance("laser.wav", ResourceManager::AudioFile);
 	resourceManager->freeResourceInstance("explosion.wav", ResourceManager::AudioFile);
 
+
 	delete targetManager;
 	delete playerShip;
+	delete spaceBackground;
 	delete camera;
 	delete shader2D;
 	delete standardShader;
