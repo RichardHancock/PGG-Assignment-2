@@ -54,6 +54,8 @@ private:
 
 	Entity* ship;
 
+	Entity* spaceBackground;
+
 	Music* gameOverMusic;
 
 	//UI

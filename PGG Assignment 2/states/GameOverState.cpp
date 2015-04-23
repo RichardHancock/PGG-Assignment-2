@@ -23,7 +23,14 @@ GameOverState::GameOverState(StateManager* manager, ResourceManager* resourceMan
 	ship = new Entity(glm::vec3(0), glm::vec3(0, 0, 0), glm::vec3(0.2, 0.2, 0.2),
 		"ship.obj", "ship.png", resourceManager);
 
-	
+	//Randomly selects one of the available background images
+	std::string bgImage = "starfield" + std::to_string(Utility::randomInt(1, 3)) + ".png";
+
+	//Create the Background and set it 100 in front of the player
+	spaceBackground = new Entity(glm::vec3(0, -40, ship->getPos().z - 100), glm::vec3(Utility::HALF_PI, 0, 0),
+		glm::vec3(12), "flatPlane.obj", bgImage, resourceManager);
+
+
 	//UI
 	TTF_Font* font = TTF_OpenFont("resources/fonts/OpenSans-Regular.ttf", 28);
 
@@ -111,15 +118,24 @@ void GameOverState::update(float dt)
 
 	ship->update(dt);
 
-	camera->updateViewMat(ship->getPos());
+	spaceBackground->update(dt);
+
+	//Offset the camera (Basically zooms out a little)
+	glm::vec3 camOffset = ship->getPos();
+	camOffset.z += 1;
+	camera->updateViewMat(camOffset);
 }
 
 void GameOverState::render()
 {
-	
+	glm::mat4 Projection = camera->getProjMatrix();
+	glm::mat4 View = camera->getViewMatrix();
 
-	ship->draw(camera->getViewMatrix(), camera->getProjMatrix(), standardShader);
+	ship->draw(View, Projection, standardShader);
 
+	spaceBackground->draw(View, Projection, standardShader);
+
+	//2D UI
 	BG->draw(shader2D);
 	GameOverText->draw(shader2D);
 	FinalScore->draw(shader2D);
