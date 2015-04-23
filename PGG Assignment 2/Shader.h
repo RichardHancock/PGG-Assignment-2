@@ -21,6 +21,8 @@ public:
 	 */
 	Shader(std::string vShaderFilename, std::string fShaderFilename);
 	
+	~Shader();
+
 	/**
 	@brief Get the shader program
 	@return GLuint - Shader Program
@@ -54,6 +56,9 @@ public:
 private:
 	///Shader Program
 	GLuint program;
+
+	///Individual Shader IDs
+	GLuint vShader, fShader;
 
 	/// Uniform locations
 	GLint modelMatLocation, viewMatLocation, projMatLocation, samplerLocation;

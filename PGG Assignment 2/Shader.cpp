@@ -7,6 +7,13 @@ Shader::Shader(std::string vShaderFilename, std::string fShaderFilename)
 	initialiseShaders(vShaderFilename, fShaderFilename);
 }
 
+Shader::~Shader()
+{
+	glDeleteShader(vShader);
+	glDeleteShader(fShader);
+	glDeleteProgram(program);
+}
+
 void Shader::initialiseShaders(std::string vShaderFilename, std::string fShaderFilename)
 {	
 	std::string vShaderRaw = loadShaderFromFile(vShaderFilename);
