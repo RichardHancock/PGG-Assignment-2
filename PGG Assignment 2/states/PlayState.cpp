@@ -62,10 +62,10 @@ PlayState::~PlayState()
 
 	TTF_CloseFont(font);
 
-	delete bgMusic;
-	delete laserSFX;
-	delete shipTargetCollisionSFX;
-	delete targetExplosionSFX;
+	resourceManager->freeResourceInstance("Cephalopod.wav", ResourceManager::AudioFile);
+	resourceManager->freeResourceInstance("bong.wav", ResourceManager::AudioFile);
+	resourceManager->freeResourceInstance("laser.wav", ResourceManager::AudioFile);
+	resourceManager->freeResourceInstance("explosion.wav", ResourceManager::AudioFile);
 
 	delete targetManager;
 	delete playerShip;

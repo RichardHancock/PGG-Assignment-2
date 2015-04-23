@@ -2,12 +2,34 @@
 #include "OBJLoader.h"
 #include "audio/Music.h"
 #include "audio/SFX.h"
+#include "Utility.h"
 
 ResourceManager::ResourceManager(SDL_Renderer* renderer)
 	: renderer(renderer), modelDir("resources/models/"), audioDir("resources/audio/"), 
 	shaderDir("resources/shaders/"), textureDir("resources/textures/")
 {
 
+}
+
+ResourceManager::~ResourceManager()
+{
+	for(auto model : models)
+	{
+		delete model.second.first;
+	}
+	models.clear();
+
+	for (auto curAudio : audio)
+	{
+		delete curAudio.second.first;
+	}
+	audio.clear();
+
+	for (auto texture : textures)
+	{
+		delete texture.second.first;
+	}
+	textures.clear();
 }
 
 Audio* ResourceManager::getAudio(std::string audioFilename, bool isMusic)

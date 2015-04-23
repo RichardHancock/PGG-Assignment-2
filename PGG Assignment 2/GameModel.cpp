@@ -16,6 +16,8 @@ GameModel::GameModel(std::string modelFilename, std::string textureFilename, Res
 	textureID = 0;
 	numVertices = 0;
 	disableMatUniforms = false;
+	this->textureFilename = textureFilename;
+	resManager = manager;
 	
 	Utility::log(Utility::I, "Loading model: " + modelFilename);
 
@@ -32,6 +34,8 @@ GameModel::GameModel(std::vector<Vertex> vertexData, std::string textureFilename
 	textureID = 0;
 	numVertices = 0;
 	disableMatUniforms = true;
+	this->textureFilename = textureFilename;
+	resManager = manager;
 
 	texture = manager->getTexture(textureFilename);
 
@@ -47,6 +51,7 @@ GameModel::GameModel(std::vector<Vertex> vertexData, std::string text, TTF_Font*
 	textureID = 0;
 	numVertices = 0;
 	disableMatUniforms = true;
+	resManager = manager;
 
 	SDL_Color color;
 	color.r = 255;
@@ -63,7 +68,18 @@ GameModel::GameModel(std::vector<Vertex> vertexData, std::string text, TTF_Font*
 
 GameModel::~GameModel()
 {
-	// TODO: destroy VAO, shaders etc
+	//Just incase the below VAO deletion doesn't cover it, delete all other data
+	glDeleteBuffers(1, &vertexBuffer);
+
+	glDeleteTextures(1, &textureID);
+
+	//I believe this will delete all associated data, as once a VBO/Texture has nothing referencing it, it will be deleted
+	glDeleteVertexArrays(1, &VAO);
+
+	if (texture != nullptr)
+	{
+		resManager->freeResourceInstance(textureFilename, ResourceManager::TextureFile);
+	}
 }
 
 void GameModel::initialiseVAO(std::string modelFilename)
@@ -100,7 +116,7 @@ void GameModel::initialiseVAO(std::string modelFilename)
 	}
 
 	// Variable for storing a VBO
-	GLuint vertexBuffer = 0;
+	vertexBuffer = 0;
 	// Create a generic 'buffer'
 	glGenBuffers(1, &vertexBuffer);
 	// Tell OpenGL that we want to activate the buffer and that it's a VBO
@@ -202,7 +218,7 @@ void GameModel::initialiseVAO(std::vector<Vertex> vertexData)
 	}
 
 	// Variable for storing a VBO
-	GLuint vertexBuffer = 0;
+	vertexBuffer = 0;
 	// Create a generic 'buffer'
 	glGenBuffers(1, &vertexBuffer);
 	// Tell OpenGL that we want to activate the buffer and that it's a VBO
@@ -304,7 +320,7 @@ void GameModel::initialiseVAO(std::vector<Vertex> vertexData, SDL_Surface* surfa
 	}
 
 	// Variable for storing a VBO
-	GLuint vertexBuffer = 0;
+	vertexBuffer = 0;
 	// Create a generic 'buffer'
 	glGenBuffers(1, &vertexBuffer);
 	// Tell OpenGL that we want to activate the buffer and that it's a VBO

@@ -23,6 +23,8 @@ public:
 
 	ResourceManager(SDL_Renderer* renderer);
 
+	~ResourceManager();
+
 	Audio* getAudio(std::string audioFilename, bool isMusic);
 
 	GameModel* getModel(std::string modelFilename, std::string textureFilename);

@@ -5,7 +5,7 @@
 
 Entity::Entity(glm::vec3 initPosition, glm::vec3 rotation, glm::vec3 scale, 
 	std::string modelFilename, std::string textureFilename, ResourceManager* manager) 
-		: pos(initPosition), rotation(rotation), scale(scale)
+		: pos(initPosition), rotation(rotation), scale(scale), modelFilename(modelFilename), resManager(manager)
 {
 	if (manager == nullptr)
 	{
@@ -21,7 +21,12 @@ Entity::Entity(glm::vec3 initPosition, glm::vec3 rotation, glm::vec3 scale,
 
 Entity::~Entity()
 {
+	delete aabb;
 
+	//Tells the resource manager that this instance of Model is no longer being used
+	resManager->freeResourceInstance(modelFilename, ResourceManager::ModelFile);
+
+	
 }
 
 void Entity::draw(glm::mat4& viewMatrix, glm::mat4& projMatrix, Shader* shader)

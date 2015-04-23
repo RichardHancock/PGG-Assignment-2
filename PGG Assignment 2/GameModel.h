@@ -39,9 +39,13 @@ private:
 	/// Vertex Array Object for model in OpenGL
 	GLuint VAO;
 
+	GLuint vertexBuffer;
+
 	GLuint textureID;
 
 	Texture* texture;
+
+	std::string textureFilename;
 
 	bool disableMatUniforms;
 
@@ -54,5 +58,7 @@ private:
 
 	/// Number of vertices in the model
 	unsigned int numVertices;
+
+	ResourceManager* resManager;
 
 };

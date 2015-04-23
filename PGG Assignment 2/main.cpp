@@ -148,6 +148,8 @@ int main(int argc, char *argv[])
 	manager->popLastState();
 	delete manager;
 
+	delete resourceManager;
+
 	// Our cleanup phase, hopefully fairly self-explanatory ;)
 	IMG_Quit();
 	Mix_CloseAudio();

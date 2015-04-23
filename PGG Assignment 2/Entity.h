@@ -63,6 +63,10 @@ protected:
 
 	AABB* aabb;
 
+	std::string modelFilename;
+
+	ResourceManager* resManager;
+
 	/// Object's model matrix
 	/// This is rebuilt in the update function
 	glm::mat4 modelMatrix;
