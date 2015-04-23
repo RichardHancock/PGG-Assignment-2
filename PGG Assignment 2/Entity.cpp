@@ -36,6 +36,7 @@ void Entity::draw(glm::mat4& viewMatrix, glm::mat4& projMatrix, Shader* shader)
 
 void Entity::update(float dt)
 {
+	//I think the transform order is incorrect but everything is already built around it, so cant really change
 	modelMatrix = glm::translate(glm::mat4(1.0f), pos);
 	modelMatrix = glm::scale(modelMatrix, scale);
 	

@@ -92,6 +92,8 @@ private:
 
 	Music* bgMusic;
 
+	Entity* spaceBackground;
+
 	TTF_Font* font;
 
 	UI* BG1;

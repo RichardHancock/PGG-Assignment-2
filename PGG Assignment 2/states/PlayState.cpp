@@ -22,6 +22,9 @@ PlayState::PlayState(StateManager* manager, ResourceManager* resourceManager)
 
 	targetManager = new TargetManager(8, glm::vec2(10, 6), resourceManager);
 
+	spaceBackground = new Entity(glm::vec3(0, -40, playerShip->getPos().z - 100), glm::vec3(Utility::HALF_PI, 0, 0),
+		glm::vec3(12), "flatPlane.obj", "starfield.png", resourceManager);
+
 	laserSFX = resourceManager->getAudio("laser.wav", false);
 	shipTargetCollisionSFX = resourceManager->getAudio("bong.wav", false);
 	targetExplosionSFX = resourceManager->getAudio("explosion.wav", false);
@@ -134,6 +137,13 @@ void PlayState::update(float dt)
 
 	playerShip->update(dt);
 
+	glm::vec3 bgPos = spaceBackground->getPos();
+	bgPos.z = playerShip->getPos().z - 100;
+
+	spaceBackground->setPos(bgPos);
+	spaceBackground->update(dt);
+
+
 	targetManager->update(dt, playerShip->getPos().z);
 
 	camera->updateViewMat(playerShip->getPos());
@@ -172,6 +182,8 @@ void PlayState::render()
 	}
 
 	targetManager->draw(View, Projection, standardShader);
+
+	spaceBackground->draw(View, Projection, standardShader);
 
 	BG1->draw(shader2D);
 	BG2->draw(shader2D);

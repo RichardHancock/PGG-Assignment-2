@@ -43,6 +43,8 @@ public:
 
 	glm::vec3 getPos() { return pos; }
 
+	void setPos(glm::vec3 newPos) { pos = newPos; }
+
 	glm::vec3 getRotation() { return rotation; }
 
 	glm::vec3 getScale() { return scale; }
