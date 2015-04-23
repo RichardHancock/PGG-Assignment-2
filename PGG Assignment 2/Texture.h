@@ -20,6 +20,7 @@ public:
 	@brief Create a Texture
 	@param std::string - Path to image
 	@param SDL_Renderer* - Renderer
+	@param keepSurface Should the surface be kept after the texture is created.
 	*/
 	Texture(std::string, SDL_Renderer*, bool keepSurface);
 
@@ -27,6 +28,7 @@ public:
 	@brief Create a Texture
 	@param SDL_Surface* - A surface to convert into a texture (This is freed internally)
 	@param SDL_Renderer* - Renderer
+	@param keepSurface Should the surface be kept after the texture is created.
 	*/
 	Texture(SDL_Surface*, SDL_Renderer*, bool keepSurface);
 
@@ -92,8 +94,18 @@ public:
 	*/
 	SDL_Renderer* Texture::getRenderer();
 
+	/**
+	 @brief Gets raw texture.
+	
+	 @return null if it fails, else the raw texture.
+	 */
 	SDL_Texture* getRawTexture() { return texture; }
 
+	/**
+	 @brief Gets raw surface.
+	
+	 @return null if it fails, else the raw surface.
+	 */
 	SDL_Surface* getRawSurface() { return surface; }
 private:
 	/// Stored Dimensions of the Texture
@@ -105,8 +117,10 @@ private:
 	/// Renderer
 	SDL_Renderer* currentRenderer;
 
+	/** @brief true to keep surface. */
 	const bool keepSurface;
 
+	/** @brief The surface. */
 	SDL_Surface* surface;
 
 	/**

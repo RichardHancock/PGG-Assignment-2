@@ -3,9 +3,10 @@
 #include "Vec2.h"
 #include "Vec3.h"
 
+/** @brief A vertex. */
 struct Vertex
 {
-	Vec3 v;
-	Vec3 vn;
-	Vec2 vt;
+	Vec3 v; //< Vertex Position
+	Vec3 vn; //< Vertex Normal
+	Vec2 vt; //< Vertex Texture Coordinate
 };

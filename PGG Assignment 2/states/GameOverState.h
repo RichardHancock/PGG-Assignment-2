@@ -12,6 +12,7 @@
 #include "../Camera.h"
 #include "../Entity.h"
 
+/** @brief The game over state. */
 class GameOverState : public State
 {
 public:
@@ -44,18 +45,22 @@ public:
 	void render();
 
 private:
-	/** @brief A standard shader that renders and textures a 3D object */
+	/** @brief A standard shader that renders and textures a 3D object. */
 	Shader* standardShader;
 
+	/** @brief A standard shader that renders and textures a 2D object. */
 	Shader* shader2D;
 
 	/** @brief The camera that holds the View and Projection matrices. */
 	Camera* camera;
 
+	/** @brief The ship rotating in the background. */
 	Entity* ship;
 
+	/** @brief The space background plane. */
 	Entity* spaceBackground;
 
+	/** @brief The game over music. */
 	Music* gameOverMusic;
 
 	//UI

@@ -3,21 +3,33 @@
 #include <iostream>
 #include <math.h>
 
+/**
+@brief Stores a 3D Vector or Position, as floats
+*/
 class Vec3
 {
 public:
-	Vec3()
-	{
+	Vec3() { }
 
-	}
-
+	/**
+	 @brief Constructor.
+	
+	 @param x The x coordinate.
+	 @param y The y coordinate.
+	 @param z The z coordinate.
+	 */
 	Vec3(float x, float y, float z) : x(x), y(y), z(z)
 	{
 
 	}
 	
+	/// X, Y, Z positions
 	float x,y,z;
 
+	/**
+	@brief Get the length of the vector
+	@return float - length of vector
+	*/
 	float getLength()
 	{
 		Vec3 temp;
@@ -28,7 +40,12 @@ public:
 
 		return sqrt(total);
 	}
-
+	
+	/**
+	 @brief Get a normalized Vec3
+	
+	 @return A normalized Vec3.
+	 */
 	Vec3 normalize()
 	{
 		float length = getLength();

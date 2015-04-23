@@ -50,6 +50,7 @@ public:
 
 private:
 	
+	/** @brief Refresh user interface. (Updates the score and lives UI elements) */
 	void refreshUI();
 
 	/** @brief Fires a laser and adds it to the lasers vector. */
@@ -71,13 +72,14 @@ private:
 	/** @brief A standard shader that renders and textures a 3D object */
 	Shader* standardShader;
 
+	/** @brief A standard shader that renders and textures a 2D object. */
 	Shader* shader2D;
 
 	/** @brief The camera that holds the View and Projection matrices. */
 	Camera* camera;
 
 	//Objects
-	///The Player
+	/** @brief The player ship. */
 	Player* playerShip;
 	
 	/** @brief Manages the randomly spawning targets */
@@ -86,18 +88,34 @@ private:
 	/** @brief Contains the lasers that have been fired. */
 	std::vector<Laser*> lasers;
 
-	Audio* laserSFX;
-	Audio* shipTargetCollisionSFX;
-	Audio* targetExplosionSFX;
-
-	Music* bgMusic;
-
+	/** @brief The space background Plane. */
 	Entity* spaceBackground;
 
+	//Audio
+	/** @brief The laser sfx. */
+	Audio* laserSFX;
+
+	/** @brief The ship collision sfx. */
+	Audio* shipTargetCollisionSFX;
+
+	/** @brief Target explosion sfx. */
+	Audio* targetExplosionSFX;
+
+	/** @brief The background music. */
+	Music* bgMusic;
+
+	/** @brief The font. */
 	TTF_Font* font;
 
+	/** @brief The background for the left UI panel. */
 	UI* BG1;
+
+	/** @brief The background for the right UI panel. */
 	UI* BG2;
+
+	/** @brief The text for the left UI panel. */
 	UI* Text1;
+
+	/** @brief The text for the right UI panel. */
 	UI* Text2;
 };

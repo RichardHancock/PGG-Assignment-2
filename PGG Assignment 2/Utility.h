@@ -9,15 +9,20 @@
 #include <unordered_map>
 #include "Vec2.h"
 
+//Used in pretty much every assignment this year, New part is Simple Timer and PI constants.
+
 /**
 @brief An assortment of useful functions (random numbers, logging) that don't fit elsewhere.
 */
 namespace Utility
 {
+	/** @brief PI constant. */
 	const float PI = 3.1415926535f;
 
+	/** @brief Half PI constant. */
 	const float HALF_PI = PI * 0.5f;
 
+	/** @brief Quarter PI constant. */
 	const float QUARTER_PI = PI * 0.25f;
 
 	/**
@@ -121,9 +126,6 @@ namespace Utility
 	/**
 	@brief creates a timer for use in game
 
-	This code was used in the Group Project Unit, but was entirely written by me.
-	I have upgraded it to use some really useful C++11 which did require a rewrite of all the functions, 
-	but the general structure (Headers) is the same.
 	*/
 	class Timer
 	{
@@ -198,23 +200,47 @@ namespace Utility
 			float duration;
 		};
 	public:
+		/**
+		 @brief Constructor.
+		
+		 @param duration The duration of the timer.
+		 */
 		SimpleTimer(float duration);
 		
+		/** @brief Restarts this SimpleTimer with the same duration. */
 		void restart();
 
+		/**
+		 @brief Restarts this SimpleTimer with a new duration.
+		
+		 @param duration The duration.
+		 */
 		void restart(float duration);
 
+		/** @brief Stops this SimpleTimer. */
 		void stop() { running = false; }
 
+		/**
+		 @brief Query if this SimpleTimer has timer finished.
+		
+		 @return true if timer finished, false if not.
+		 */
 		bool hasTimerFinished();
 
+		/**
+		 @brief Updates the Timer (increments the timer).
+		
+		 @param dt The deltatime.
+		 */
 		void update(float dt);
 
 	private:
 		const float TIME_INTERVAL;
 
+		/** @brief The timer. */
 		TimerStruct timer;
 
+		/** @brief Is the timer running. */
 		bool running;
 	};
 }
@@ -222,7 +248,7 @@ namespace Utility
 /**
 @brief Defines a RGB colour
 
-Didn't realise there was a SDL_Colour until it was too late, oh well...
+Didn't realize there was a SDL_Colour until it was too late, oh well...
 */
 struct Colour
 {
