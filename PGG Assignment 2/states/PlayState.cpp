@@ -17,10 +17,13 @@ PlayState::PlayState(StateManager* manager, ResourceManager* resourceManager)
 
 	camera = new Camera();
 
-	playerShip = new Player(glm::vec3(0), glm::vec3(0, Utility::HALF_PI, 0), glm::vec3(0.2, 0.2, 0.2),
-		"ship.obj", "ship.png", resourceManager);
+	// The area targets will spawn, and that the player can move around
+	glm::vec2 playArea(10, 6);
 
-	targetManager = new TargetManager(8, glm::vec2(10, 6), resourceManager);
+	playerShip = new Player(glm::vec3(0), glm::vec3(0, Utility::HALF_PI, 0), glm::vec3(0.2, 0.2, 0.2),
+		playArea, "ship.obj", "ship.png", resourceManager);
+
+	targetManager = new TargetManager(8, playArea, resourceManager);
 
 	//Randomly selects one of the available background images
 	std::string bgImage = "starfield" + std::to_string(Utility::randomInt(1, 3)) + ".png";

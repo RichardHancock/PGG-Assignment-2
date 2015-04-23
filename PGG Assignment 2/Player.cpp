@@ -1,11 +1,14 @@
 #include "Player.h"
 
-Player::Player(glm::vec3 initPosition, glm::vec3 rotation, glm::vec3 scale, std::string modelFilename,
-	std::string textureFilename, ResourceManager* manager)
+Player::Player(glm::vec3 initPosition, glm::vec3 rotation, glm::vec3 scale, glm::vec2 movementArea, 
+	std::string modelFilename,std::string textureFilename, ResourceManager* manager)
 	: Entity(initPosition, rotation, scale, modelFilename, textureFilename, manager)
 {
 	allowedToMove = false;
 	recalculateTurretPos();
+
+	//The distance the player can move in the x and y axis
+	this->movementArea = movementArea;
 
 	//These values were determined by looking through the OBJ file
 	aabb = new AABB(glm::vec3(-2.2, -0.2, -3.85), glm::vec3(10.0, 3.5, 3.85));
@@ -29,14 +32,45 @@ void Player::update(float dt)
 		pos.z -= forwardSpeed * dt;
 	}
 
-	pos.x += velocity.x * dt;
-	pos.y += velocity.y * dt;
+	updateXYPos(dt);
 
+	//reset Velocity
 	velocity = glm::vec2(0);
 
 	recalculateTurretPos();
 
 	Entity::update(dt);
+}
+
+void Player::updateXYPos(float dt)
+{
+	glm::vec2 newPos;
+	newPos.x = pos.x + (velocity.x * dt);
+	newPos.y = pos.y + (velocity.y * dt);
+
+	float halfWidth = movementArea.x / 2;
+	float halfHeight = movementArea.y / 2;
+
+	if (newPos.x < -halfWidth)
+	{
+		newPos.x = -halfWidth;
+	}
+	else if (newPos.x > halfWidth)
+	{
+		newPos.x = halfWidth;
+	}
+
+	if (newPos.y < -halfHeight)
+	{
+		newPos.y = -halfHeight;
+	}
+	else if (newPos.y > halfHeight)
+	{
+		newPos.y = halfHeight;
+	}
+
+	pos.x = newPos.x;
+	pos.y = newPos.y;
 }
 
 void Player::directionMovement()

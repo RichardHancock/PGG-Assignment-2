@@ -5,8 +5,8 @@
 class Player : public Entity
 {
 public:
-	Player(glm::vec3 initPosition, glm::vec3 rotation, glm::vec3 scale, std::string modelFilename, 
-		std::string textureFilename, ResourceManager* manager);
+	Player(glm::vec3 initPosition, glm::vec3 rotation, glm::vec3 scale, glm::vec2 movementArea,
+		std::string modelFilename, std::string textureFilename, ResourceManager* manager);
 
 	~Player();
 
@@ -35,6 +35,8 @@ protected:
 
 	void directionMovement();
 
+	void updateXYPos(float dt);
+
 	const int speed = 4;
 
 	int lives;
@@ -44,4 +46,6 @@ protected:
 
 	/** @brief The 2 Dimensional velocity. (no Z, only left, right, up, down) */
 	glm::vec2 velocity;
+
+	glm::vec2 movementArea;
 };

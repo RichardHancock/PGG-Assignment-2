@@ -47,7 +47,11 @@ public:
 
 	glm::vec3 getRotation() { return rotation; }
 
+	void setRotation(glm::vec3 newRot) { rotation = newRot; }
+
 	glm::vec3 getScale() { return scale; }
+
+	void setScale(glm::vec3 newScale) { scale = newScale; }
 
 	AABB* getAABB() { return aabb; }
 protected:
