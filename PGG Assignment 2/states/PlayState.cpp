@@ -22,9 +22,14 @@ PlayState::PlayState(StateManager* manager, ResourceManager* resourceManager)
 
 	targetManager = new TargetManager(8, glm::vec2(10, 6), resourceManager);
 
-	spaceBackground = new Entity(glm::vec3(0, -40, playerShip->getPos().z - 100), glm::vec3(Utility::HALF_PI, 0, 0),
-		glm::vec3(12), "flatPlane.obj", "starfield.png", resourceManager);
+	//Randomly selects one of the available background images
+	std::string bgImage = "starfield" + std::to_string(Utility::randomInt(1, 3)) + ".png";
 
+	//Create the Background and set it 100 in front of the player
+	spaceBackground = new Entity(glm::vec3(0, -40, playerShip->getPos().z - 100), glm::vec3(Utility::HALF_PI, 0, 0),
+		glm::vec3(12), "flatPlane.obj", bgImage, resourceManager);
+
+	//Sounds/Music
 	laserSFX = resourceManager->getAudio("laser.wav", false);
 	shipTargetCollisionSFX = resourceManager->getAudio("bong.wav", false);
 	targetExplosionSFX = resourceManager->getAudio("explosion.wav", false);
@@ -137,10 +142,11 @@ void PlayState::update(float dt)
 
 	playerShip->update(dt);
 
+	//Calculate the backgrounds new Z pos (Could be in a class, but there isn't enough to justify it)
 	glm::vec3 bgPos = spaceBackground->getPos();
 	bgPos.z = playerShip->getPos().z - 100;
-
 	spaceBackground->setPos(bgPos);
+
 	spaceBackground->update(dt);
 
 
