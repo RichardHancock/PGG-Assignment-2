@@ -90,12 +90,12 @@ private:
 	Audio* shipTargetCollisionSFX;
 	Audio* targetExplosionSFX;
 
-	Audio* bgMusic;
+	Music* bgMusic;
 
 	TTF_Font* font;
 
-	UI* buttonBG1;
-	UI* buttonBG2;
-	UI* buttonText1;
-	UI* buttonText2;
+	UI* BG1;
+	UI* BG2;
+	UI* Text1;
+	UI* Text2;
 };

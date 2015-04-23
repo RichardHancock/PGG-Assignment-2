@@ -1,4 +1,5 @@
 #include "PlayState.h"
+#include "GameOverState.h"
 #include "../Utility.h"
 
 PlayState::PlayState(StateManager* manager, ResourceManager* resourceManager)
@@ -24,8 +25,8 @@ PlayState::PlayState(StateManager* manager, ResourceManager* resourceManager)
 	laserSFX = resourceManager->getAudio("laser.wav", false);
 	shipTargetCollisionSFX = resourceManager->getAudio("bong.wav", false);
 	targetExplosionSFX = resourceManager->getAudio("explosion.wav", false);
-	bgMusic = resourceManager->getAudio("Cephalopod.wav", true);
-
+	bgMusic = new Music("resources/audio/Cephalopod.wav");
+	
 	bgMusic->play(0, -1);
 
 	font = TTF_OpenFont("resources/fonts/OpenSans-Regular.ttf", 28);
@@ -35,8 +36,8 @@ PlayState::PlayState(StateManager* manager, ResourceManager* resourceManager)
 		Utility::log(Utility::I, "Font in play state failed to load");
 	}
 
-	buttonBG1 = new UI(glm::vec2(0.5f, 0.7f), glm::vec2(0.45f, 0.25f), "buttonBG.png", resourceManager);
-	buttonBG2 = new UI(glm::vec2(-0.95f, 0.7f), glm::vec2(0.45f, 0.25f), "buttonBG.png", resourceManager);
+	BG1 = new UI(glm::vec2(0.5f, 0.7f), glm::vec2(0.45f, 0.25f), "buttonBG.png", resourceManager);
+	BG2 = new UI(glm::vec2(-0.95f, 0.7f), glm::vec2(0.45f, 0.25f), "buttonBG.png", resourceManager);
 	
 	refreshUI();
 
@@ -50,19 +51,23 @@ PlayState::PlayState(StateManager* manager, ResourceManager* resourceManager)
 
 PlayState::~PlayState()
 {
-	bgMusic->stop(0);
+	Utility::Timer::stopTimer("FireDelay");
+
+
 	laserSFX->stop(0);
 	shipTargetCollisionSFX->stop(0);
 	targetExplosionSFX->stop(0);
 
-	delete buttonBG1;
-	delete buttonBG2;
-	delete buttonText1;
-	delete buttonText2;
+	delete BG1;
+	delete BG2;
+	delete Text1;
+	delete Text2;
 
 	TTF_CloseFont(font);
+	font = NULL;
 
-	resourceManager->freeResourceInstance("Cephalopod.wav", ResourceManager::AudioFile);
+	delete bgMusic;
+
 	resourceManager->freeResourceInstance("bong.wav", ResourceManager::AudioFile);
 	resourceManager->freeResourceInstance("laser.wav", ResourceManager::AudioFile);
 	resourceManager->freeResourceInstance("explosion.wav", ResourceManager::AudioFile);
@@ -129,8 +134,6 @@ void PlayState::update(float dt)
 
 	playerShip->update(dt);
 
-	Utility::Timer::update(dt);
-
 	targetManager->update(dt, playerShip->getPos().z);
 
 	camera->updateViewMat(playerShip->getPos());
@@ -146,6 +149,12 @@ void PlayState::update(float dt)
 
 	//Updates Lasers and checks for collisions
 	updateLasers(dt);
+
+	if (playerShip->isDead())
+	{
+		bgMusic->stop(0);
+		stateManager->changeState(new GameOverState(stateManager, resourceManager, score));
+	}
 
 }
 
@@ -164,23 +173,23 @@ void PlayState::render()
 
 	targetManager->draw(View, Projection, standardShader);
 
-	buttonBG1->draw(shader2D);
-	buttonBG2->draw(shader2D);
-	buttonText1->draw(shader2D);
-	buttonText2->draw(shader2D);
+	BG1->draw(shader2D);
+	BG2->draw(shader2D);
+	Text1->draw(shader2D);
+	Text2->draw(shader2D);
 }
 
 void PlayState::refreshUI()
 {
-	delete buttonText1;
-	delete buttonText2;
+	delete Text1;
+	delete Text2;
 	
 	//Show the Player's current lives
-	buttonText1 = new UI(glm::vec2(0.5f, 0.7f), glm::vec2(0.45f, 0.25f),
+	Text1 = new UI(glm::vec2(0.5f, 0.7f), glm::vec2(0.45f, 0.25f),
 		"Lives: " + std::to_string(playerShip->getCurrentLife()), font, resourceManager);
 
 	//Show the Player's current score
-	buttonText2 = new UI(glm::vec2(-0.95f, 0.7f), glm::vec2(0.45f, 0.25f),
+	Text2 = new UI(glm::vec2(-0.95f, 0.7f), glm::vec2(0.45f, 0.25f),
 		"Score: " + std::to_string(score), font, resourceManager);
 }
 

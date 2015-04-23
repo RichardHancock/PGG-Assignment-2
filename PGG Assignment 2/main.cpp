@@ -49,7 +49,7 @@ bool InitGL()
 
 int main(int argc, char *argv[])
 {
-	if (SDL_Init(SDL_INIT_VIDEO) < 0)
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
 	{
 		// Something went very wrong in initialisation, all we can do is exit
 		Utility::log(Utility::E,"Whoops! Something went very wrong, cannot initialise SDL");
@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
 
 	TTF_Init();
 
-	Mix_Init(MIX_INIT_OGG);
+	Mix_Init(MIX_INIT_OGG | MIX_INIT_MP3);
 
 	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
 	{
@@ -120,6 +120,7 @@ int main(int argc, char *argv[])
 		go = manager->eventHandler();
 		
 		//Update
+		Utility::Timer::update(deltaTs);
 		manager->update(deltaTs);
 		
 		// Draw our world

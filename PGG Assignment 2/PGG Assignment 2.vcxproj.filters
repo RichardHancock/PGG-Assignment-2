@@ -114,6 +114,9 @@
     <ClInclude Include="UI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="states\GameOverState.h">
+      <Filter>Header Files\States</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OBJLoader.cpp">
@@ -181,6 +184,9 @@
     </ClCompile>
     <ClCompile Include="UI.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="states\GameOverState.cpp">
+      <Filter>Source Files\States</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
