@@ -152,8 +152,7 @@ void PlayState::update(float dt)
 	bgPos.z = playerShip->getPos().z - 100;
 	spaceBackground->setPos(bgPos);
 
-	spaceBackground->update(dt);
-
+	spaceBackground->update(dt);	
 
 	targetManager->update(dt, playerShip->getPos().z);
 

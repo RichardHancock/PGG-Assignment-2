@@ -2,6 +2,7 @@
 
 #include "Target.h"
 #include "ResourceManager.h"
+#include "particles/ParticleSystem.h"
 
 /**
 @brief Manager for targets. 
@@ -80,4 +81,6 @@ private:
 	/** @brief The spawn area. */
 	const glm::vec2 spawnArea;
 
+	/** @brief The particle system used for explosions. */
+	ParticleSystem* particles;
 };

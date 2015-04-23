@@ -140,6 +140,7 @@ void GameModel::initialiseVAO(std::string modelFilename)
 
 	SDL_Surface* surface = texture->getRawSurface();
 
+	//Section from http://ubuntuforums.org/archive/index.php/t-1088836.html post 2
 	switch (surface->format->BytesPerPixel) {
 	case 4:
 		if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
@@ -155,6 +156,7 @@ void GameModel::initialiseVAO(std::string modelFilename)
 			textureFormat = GL_RGB;
 		break;
 	}
+	//End Section
 
 	glGenTextures(1, &textureID);
 	glBindTexture(GL_TEXTURE_2D, textureID);

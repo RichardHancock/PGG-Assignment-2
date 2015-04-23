@@ -85,6 +85,8 @@
     <ClInclude Include="GameModel.h" />
     <ClInclude Include="Laser.h" />
     <ClInclude Include="OBJLoader.h" />
+    <ClInclude Include="particles\Particle.h" />
+    <ClInclude Include="particles\ParticleSystem.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Shader.h" />
@@ -113,6 +115,8 @@
     <ClCompile Include="Laser.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="OBJLoader.cpp" />
+    <ClCompile Include="particles\Particle.cpp" />
+    <ClCompile Include="particles\ParticleSystem.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Shader.cpp" />

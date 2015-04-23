@@ -7,6 +7,8 @@
 
 #pragma once
 
+//Used in other assignments, small modifications
+
 /**
 @class Texture
 @brief Encapsulates an SDL_Texture

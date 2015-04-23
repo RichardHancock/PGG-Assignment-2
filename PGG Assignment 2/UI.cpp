@@ -15,6 +15,11 @@ UI::UI(glm::vec2 pos, glm::vec2 dimensions, std::string text, TTF_Font* font, Re
 	uiElement = new GameModel(vertexData, text, font, manager);
 }
 
+UI::~UI()
+{
+	delete uiElement;
+}
+
 std::vector<Vertex> UI::createVertices(glm::vec2 pos, glm::vec2 dimensions)
 {
 	std::vector<Vertex> vertexData;

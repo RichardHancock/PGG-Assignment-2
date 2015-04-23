@@ -37,6 +37,12 @@
     <Filter Include="Source Files\States">
       <UniqueIdentifier>{71bc929e-8cc9-4e60-951e-7f5e3e72f810}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Particles">
+      <UniqueIdentifier>{69af6362-dce6-4c5f-b344-a9114cc3a357}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Particles">
+      <UniqueIdentifier>{1cd7dd1e-ee33-446b-8fcf-02296285aab1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameModel.h">
@@ -117,6 +123,12 @@
     <ClInclude Include="states\GameOverState.h">
       <Filter>Header Files\States</Filter>
     </ClInclude>
+    <ClInclude Include="particles\Particle.h">
+      <Filter>Header Files\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="particles\ParticleSystem.h">
+      <Filter>Header Files\Particles</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OBJLoader.cpp">
@@ -187,6 +199,12 @@
     </ClCompile>
     <ClCompile Include="AABB.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="particles\Particle.cpp">
+      <Filter>Source Files\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="particles\ParticleSystem.cpp">
+      <Filter>Source Files\Particles</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -6,6 +6,10 @@ TargetManager::TargetManager(int spacing, glm::vec2 spawnArea, ResourceManager* 
 {
 	spawning = false;
 	nextSpawnZPos = (float)-spacing - 2;
+
+	//Initialize particle system used for explosions
+	particles = new ParticleSystem(glm::vec3(0), 64, resourceManager);
+
 }
 
 TargetManager::~TargetManager()
@@ -16,6 +20,8 @@ TargetManager::~TargetManager()
 	}
 
 	targets.clear();
+
+	delete particles;
 }
 
 void TargetManager::update(float dt, float playerZPos)
@@ -61,6 +67,9 @@ void TargetManager::update(float dt, float playerZPos)
 	{
 		spawnTarget();
 	}
+
+	//Update Explosion Particle System
+	particles->update(dt);
 }
 
 void TargetManager::draw(glm::mat4& viewMatrix, glm::mat4& projMatrix, Shader* shader)
@@ -69,6 +78,8 @@ void TargetManager::draw(glm::mat4& viewMatrix, glm::mat4& projMatrix, Shader* s
 	{
 		target->draw(viewMatrix, projMatrix, shader);
 	}
+
+	particles->render(viewMatrix, projMatrix, shader);
 }
 
 void TargetManager::initSpawning()
@@ -86,6 +97,14 @@ bool TargetManager::checkForCollisions(AABB* other)
 	{
 		if (target->getAABB()->collides(other))
 		{
+			//Generate Explosion at the destroyed barrels location
+			glm::vec3 offset = target->getPos();
+			offset.y += 0.6f;
+
+			particles->setEmitterPos(offset);
+			particles->generateNewParticles();
+
+			// Marks the barrel for destruction
 			target->hit();
 			return true;
 		}

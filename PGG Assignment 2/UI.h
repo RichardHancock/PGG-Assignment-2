@@ -34,6 +34,8 @@ public:
 	 */
 	UI(glm::vec2 pos, glm::vec2 dimensions, std::string text, TTF_Font* font, ResourceManager* manager);
 
+	~UI();
+
 	/**
 	 @brief Creates the vertices for a 2D panel.
 	
