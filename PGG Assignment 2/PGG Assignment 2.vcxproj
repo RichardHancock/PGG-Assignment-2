@@ -80,6 +80,10 @@
     <ClInclude Include="audio\SFX.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="dependencies\glew.h" />
+    <ClInclude Include="dependencies\SDL.h" />
+    <ClInclude Include="dependencies\SDL_image.h" />
+    <ClInclude Include="dependencies\SDL_mixer.h" />
+    <ClInclude Include="dependencies\SDL_ttf.h" />
     <ClInclude Include="dependencies\wglew.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="GameModel.h" />

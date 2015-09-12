@@ -129,6 +129,18 @@
     <ClInclude Include="particles\ParticleSystem.h">
       <Filter>Header Files\Particles</Filter>
     </ClInclude>
+    <ClInclude Include="dependencies\SDL.h">
+      <Filter>Header Files\Dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\SDL_image.h">
+      <Filter>Header Files\Dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\SDL_mixer.h">
+      <Filter>Header Files\Dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\SDL_ttf.h">
+      <Filter>Header Files\Dependencies</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OBJLoader.cpp">
