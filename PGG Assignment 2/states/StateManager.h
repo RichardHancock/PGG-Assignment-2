@@ -1,11 +1,10 @@
 #include "State.h"
 #include <vector>
-#include <SDL.h>
+#include "../dependencies/SDL.h"
 
 #pragma once
 
 //Reference: Pete Allen's Game State Example
-//Used in other assignments
 
 /**
 @class StateManager
@@ -16,8 +15,8 @@ class StateManager
 public:
 	/**
 	@brief Create the State Manager
-	@param int - Window Width
-	@param int - Window Height
+	@param windowWidth Window Width
+	@param windowHeight Window Height
 	*/
 	StateManager(int windowWidth, int windowHeight);
 
@@ -25,7 +24,7 @@ public:
 
 	/**
 	@brief Add a state on top of the previous state
-	@param State* - The new state
+	@param state The new state
 	*/
 	void addState(State* state);
 
@@ -36,7 +35,7 @@ public:
 
 	/**
 	@brief Change to a new state while deleting all previous states
-	@param State* - The new State
+	@param state The new State
 	*/
 	void changeState(State* state);
 
@@ -52,7 +51,7 @@ public:
 
 	/**
 	@brief Calls the update in the current state
-	@param float - delta time
+	@param dt delta time
 	*/
 	void update(float dt);
 

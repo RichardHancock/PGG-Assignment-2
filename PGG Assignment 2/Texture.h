@@ -1,5 +1,5 @@
-#include <SDL.h>
-#include <SDL_image.h>
+#include "dependencies/SDL.h"
+#include "dependencies/SDL_image.h"
 #include <string>
 
 #include "Vec2.h"
@@ -20,19 +20,19 @@ class Texture
 public:
 	/**
 	@brief Create a Texture
-	@param std::string - Path to image
-	@param SDL_Renderer* - Renderer
+	@param path Path to image
+	@param renderer SDL_Renderer
 	@param keepSurface Should the surface be kept after the texture is created.
 	*/
-	Texture(std::string, SDL_Renderer*, bool keepSurface);
+	Texture(std::string path, SDL_Renderer* renderer, bool keepSurface);
 
 	/**
 	@brief Create a Texture
-	@param SDL_Surface* - A surface to convert into a texture (This is freed internally)
-	@param SDL_Renderer* - Renderer
+	@param surface A surface to convert into a texture (This is freed internally)
+	@param renderer SDL_Renderer
 	@param keepSurface Should the surface be kept after the texture is created.
 	*/
-	Texture(SDL_Surface*, SDL_Renderer*, bool keepSurface);
+	Texture(SDL_Surface* surface, SDL_Renderer* renderer, bool keepSurface);
 
 	~Texture();
 
@@ -44,51 +44,51 @@ public:
 
 	/**
 	@brief Draw the Sprite
-	@param Vec2 - Position to draw at
+	@param pos Position to draw at
 	*/
 	void Texture::draw(Vec2 pos);
 
 	/**
 	@brief Draw the Sprite
-	@param Vec2 - Position to draw at
-	@param bool - Whether the sprite shouldn't be flipped (True doesn't flip, false does)
+	@param pos Position to draw at
+	@param facingRight Whether the sprite shouldn't be flipped (True doesn't flip, false does)
 	*/
 	void Texture::draw(Vec2 pos, bool facingRight);
 
 	/**
 	@brief Draw the Sprite
-	@param Vec2 - Position to draw at
-	@param float - Rotation of the sprite in degrees (Around middle of sprite)
+	@param pos Position to draw at
+	@param rotation Rotation of the sprite in degrees (Around middle of sprite)
 	*/
 	void Texture::draw(Vec2 pos, float rotation);
 
 	/**
 	@brief Draw the Sprite
-	@param Vec2 - Position to draw at
-	@param float - Rotation of the sprite in degrees around pivot point
-	@param Vec2 - Pivot point to rotate around
+	@param pos Position to draw at
+	@param rotation Rotation of the sprite in degrees around pivot point
+	@param pivot Pivot point to rotate around
 	*/
 	void Texture::draw(Vec2 pos, float rotation, Vec2 pivot);
 
 	/**
 	@brief Load Image
-	@param std::string - Path to image
-	@param SDL_Renderer* - Renderer
+	@param path Path to image
+	@param renderer SDL_Renderer
 	*/
-	bool Texture::load(std::string, SDL_Renderer*);
+	bool Texture::load(std::string path, SDL_Renderer* renderer);
 
 	/**
 	@brief Load Image
-	@param SDL_Surface* - A surface to convert into a texture (This is freed internally)
-	@param SDL_Renderer* - Renderer
+	@param surface A surface to convert into a texture (This is freed internally)
+	@param renderer SDL_Renderer
 	*/
-	bool Texture::load(SDL_Surface*, SDL_Renderer*);
+	bool Texture::load(SDL_Surface* surface, SDL_Renderer* renderer);
 
 	/**
 	@brief Apply a tint to the texture (Warning this applied to all textures sharing if this is a pointer)
-	@param Colour - Colour tint to apply
+	@param colour Colour tint to apply
 	*/
-	void Texture::setColourTint(Colour colour);
+	void Texture::setColourTint(SDL_Colour colour);
 
 	/**
 	@brief Get the renderer used for this sprite
@@ -127,9 +127,9 @@ private:
 
 	/**
 	@brief Create a texture from a passed in surface 
-	@param SDL_Surface - Image Surface
+	@param surface Image Surface
 	@return bool - Whether it was successful
 	*/
-	bool Texture::createTexture(SDL_Surface&);
+	bool Texture::createTexture(SDL_Surface& surface);
 };
 

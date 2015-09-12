@@ -1,6 +1,6 @@
 #pragma once
 
-#include <SDL.h>
+#include "dependencies/SDL.h"
 #include "dependencies/glew.h"
 #include <string>
 
@@ -65,21 +65,21 @@ private:
 
 	/**
 	@brief Loads a shader from a file and returns its contents
-	@param std::string - Path to the shader
+	@param path Path to the shader
 	@return std::string - Shader file contents
 	*/
 	std::string loadShaderFromFile(std::string path);
 	
 	/**
 	@brief Checks for any errors in the loaded shader/compile errors
-	@param GLint - Shader to check
+	@param shader Shader to check
 	@return bool - Compiled Successfully
 	*/
 	bool checkShaderCompiled(GLint shader);
 
 	/**
 	 @brief Initialises the shaders.
-	Calls the load function to load the shaders and compile them into a program.
+	 Calls the load function to load the shaders and compile them into a program.
 	 @param vShaderFilename Filename of the shader file.
 	 @param fShaderFilename Filename of the shader file.
 	 */

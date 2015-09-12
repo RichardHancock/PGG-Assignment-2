@@ -50,7 +50,7 @@ public:
 	/**
 	 @brief Check for collisions between the targets and the passed in AABB.
 	
-	 @param [in,out] AABB to test against.
+	 @param [in,out] other AABB to test against.
 	
 	 @return true if collision occurred, false if none.
 	 */

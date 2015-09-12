@@ -1,4 +1,4 @@
-#include <SDL.h>
+#include "../dependencies/SDL.h"
 #include <string>
 #include "../ResourceManager.h"
 
@@ -34,7 +34,7 @@ public:
 
 	/**
 	@brief Update any internal values
-	@param float - delta time
+	@param dt delta time
 	*/
 	virtual void update(float dt) = 0;
 

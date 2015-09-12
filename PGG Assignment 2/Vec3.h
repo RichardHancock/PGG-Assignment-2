@@ -28,7 +28,7 @@ public:
 
 	/**
 	@brief Get the length of the vector
-	@return float - length of vector
+	@return float length of vector
 	*/
 	float getLength()
 	{

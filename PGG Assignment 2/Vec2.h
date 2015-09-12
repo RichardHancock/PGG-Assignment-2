@@ -28,8 +28,8 @@ public:
 
 	/**
 	@brief Create a Vec2
-	@param float - x value
-	@param float - y value
+	@param initX x value
+	@param initY y value
 	*/
 	Vec2(float initX, float initY)
 	{
@@ -39,7 +39,7 @@ public:
 
 	/**
 	@brief Create a Vec2
-	@param float - X and Y value
+	@param XY X and Y value
 	*/
 	Vec2(float XY)
 	{
@@ -49,7 +49,7 @@ public:
 
 	/**
 	@brief Get the length of the vector
-	@return float - length of vector
+	@return float length of vector
 	*/
 	float getLength()
 	{
@@ -62,7 +62,7 @@ public:
 
 	/**
 	@brief Get a normalized Vec2
-	@return Vec2 - Normalized vector
+	@return Vec2 Normalized vector
 	*/
 	Vec2 normalize()
 	{

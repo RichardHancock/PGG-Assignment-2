@@ -151,7 +151,7 @@ SDL_Renderer* Texture::getRenderer()
 	return currentRenderer;
 }
 
-void Texture::setColourTint(Colour c)
+void Texture::setColourTint(SDL_Colour c)
 {
 	//Set the texture colour tint or log an error.
 	(SDL_SetTextureColorMod(texture, c.r, c.g, c.b) == 0) ? NULL : Utility::log(Utility::W, "SDL_SetTextureColorMod failed in setColourTint");

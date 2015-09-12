@@ -31,9 +31,9 @@ public:
 	@brief Updates a Particle
 	
 	Applies velocity and lowers it's lifespan
-	@param float - Time since last frame
+	@param dt Time since last frame
 	*/
-	void update(float);
+	void update(float dt);
 
 	/**
 	@brief Checks if the lifespan of the particle has run out

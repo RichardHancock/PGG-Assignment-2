@@ -1,4 +1,5 @@
 #include "Utility.h"
+#include <sstream>
 
 void Utility::randomInit()
 {
@@ -24,32 +25,115 @@ void Utility::log(LogType type, std::string message)
 {
 	//Get current time
 	time_t currentTime = time(NULL);
-	tm timeStruct;
-	localtime_s(&timeStruct, &currentTime);
+	
 	char textTime[9];
 
-	//strftime(textTime, 11, "%T", &timeStruct); Apparently only Microsoft don't support the %T.
-	strftime(textTime,9, "%H:%M:%S", &timeStruct);
+	#ifdef _MSC_VER
+		//Because Microsoft like to be different they depreceated the normal localtime(), and most compilers implement localtime_r() not _s
+		tm timeStruct;
+		localtime_s(&timeStruct, &currentTime);
 
-	std::cout << textTime;
+		strftime(textTime,9, "%H:%M:%S", &timeStruct);
+
+	#else
+
+		tm* timeStruct;
+		timeStruct = localtime(&currentTime);
+		
+		strftime(textTime, 11, "%T", timeStruct); //Apparently only Microsoft don't support the %T.
+
+	#endif
+	
+	std::string finalMsg = textTime;
 
 	switch (type)
 	{
 	case I:
-		std::cout << " Info: ";
+		finalMsg += (" " + message);
+		SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, finalMsg.c_str());
 		break;
-	case W:
-		std::cout << " Warning: ";
-		break;
-	case E:
-		std::cout << " Error: ";
-		break;
-	default:
-		std::cout << " ???: ";
-		break;
-	}
 
-	std::cout << message.c_str() << std::endl;
+	case W:
+		finalMsg += (" " + message);
+		SDL_LogWarn(SDL_LOG_CATEGORY_APPLICATION, finalMsg.c_str());
+		break;
+
+	case E:
+		finalMsg += (" " + message);
+		SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, finalMsg.c_str());
+		break;
+
+	default:
+		finalMsg += (" Uncategorized: " + message);
+		SDL_Log(finalMsg.c_str());
+		break;
+
+	}
+}
+
+void Utility::logI(std::string message)
+{
+	Utility::log(Utility::I, message);
+}
+
+void Utility::logW(std::string message)
+{
+	Utility::log(Utility::W, message);
+}
+
+void Utility::logE(std::string message)
+{
+	Utility::log(Utility::E, message);
+}
+
+std::string Utility::intToString(int num)
+{
+	std::stringstream stream;
+
+	stream << num;
+	std::string result = stream.str();
+
+	return result;
+	
+}
+
+std::string Utility::floatToString(float num)
+{
+	std::stringstream stream;
+
+	stream << num;
+	std::string result = stream.str();
+
+	return result;
+
+}
+
+std::string Utility::vec2ToString(Vec2 num)
+{
+	std::stringstream stream;
+
+	stream << num.x;
+	stream << ", ";
+	stream << num.y;
+	std::string result = stream.str();
+
+	return result;
+
+}
+
+Vec2 Utility::scaleTo(Vec2 vecToScale, Vec2 screenSize)
+{
+	vecToScale.x /= 640;
+	vecToScale.y /= 480;
+
+	return (vecToScale * screenSize);
+}
+
+int Utility::fontSizeScale(int intToScale, Vec2 screenSize)
+{
+	int percentageChange = (int)(screenSize.x / 640.0f);
+
+	return (intToScale * percentageChange);
 }
 
 Vec2 Utility::getRectCenter(SDL_Rect rect)
@@ -135,6 +219,15 @@ bool Utility::lineRectIntersection(Vec2 lineP1, Vec2 lineP2, SDL_Rect rect)
 	{
 		return false;
 	}
+}
+
+SDL_Colour Utility::newColour(int r, int g, int b)
+{
+	SDL_Colour colour;
+	colour.r = r;
+	colour.g = g;
+	colour.b = b;
+	return colour;
 }
 
 //Timer

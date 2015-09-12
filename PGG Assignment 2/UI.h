@@ -1,10 +1,10 @@
 #pragma once
 
+#include "dependencies/SDL_ttf.h"
 #include "dependencies/glew.h"
 #include "glm.hpp"
 #include <string>
 
-#include "SDL_ttf.h"
 #include "Shader.h"
 #include "Vertex.h"
 #include "GameModel.h"

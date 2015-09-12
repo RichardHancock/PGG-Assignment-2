@@ -1,8 +1,8 @@
 #pragma once
 
 #include <glm.hpp>
-#include <SDL.h>
-#include <SDL_ttf.h>
+#include "dependencies/SDL.h"
+#include "dependencies/SDL_ttf.h"
 #include "dependencies/glew.h"
 #include <string>
 #include "Shader.h"

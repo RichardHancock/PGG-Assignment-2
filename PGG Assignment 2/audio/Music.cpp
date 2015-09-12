@@ -33,7 +33,15 @@ void Music::play(unsigned int ms, int loops)
 void Music::togglePause()
 {
 	// If Music paused resume, else pause 
-	Mix_PausedMusic() ? Mix_ResumeMusic() : Mix_PauseMusic();
+	if (Mix_PlayingMusic())
+	{
+		Mix_PausedMusic() ? Mix_ResumeMusic() : Mix_PauseMusic();
+	}
+	else
+	{
+		play(0, 0);
+	}
+	
 }
 
 void Music::stop(int ms)

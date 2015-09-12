@@ -1,6 +1,6 @@
 #pragma once
 
-#include <SDL_ttf.h>
+#include "../dependencies/SDL_ttf.h"
 #include <glm.hpp> 
 #include <gtc/matrix_transform.hpp> 
 
@@ -35,7 +35,7 @@ public:
 
 	/**
 	@brief Update any internal values
-	@param float - delta time
+	@param dt delta time
 	*/
 	void update(float dt);
 

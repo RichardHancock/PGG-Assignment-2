@@ -24,7 +24,7 @@ public:
 	/**
 	 @brief Checks for collision between this and another AABB.
 	
-	 @param [in,out] The other AABB.
+	 @param [in,out] other The other AABB.
 	
 	 @return true if it collides, false if none.
 	 */

@@ -29,7 +29,7 @@ public:
 	@brief Update all particles in the system
 	
 	Deletes expired particles, and runs update on all particles.
-	@param float - Time since last frame
+	@param dt Time since last frame
 	*/
 	void update(float dt);
 

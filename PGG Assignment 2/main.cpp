@@ -1,5 +1,5 @@
-#include <SDL.h>
-#include "SDL_mixer.h"
+#include "dependencies/SDL.h"
+#include "dependencies/SDL_mixer.h"
 
 #include "dependencies/glew.h"
 
